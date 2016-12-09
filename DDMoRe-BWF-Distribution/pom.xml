@@ -1,0 +1,74 @@
+<project xmlns="http://maven.apache.org/POM/4.0.0" 
+		 xmlns:xsi="http://www.w3.org/2001/XMLSchema-instance"
+		 xsi:schemaLocation="http://maven.apache.org/POM/4.0.0 http://maven.apache.org/maven-v4_0_0.xsd">
+
+	<modelVersion>4.0.0</modelVersion>
+	
+	<!-- Inherit values from parent pom -->
+	<parent>
+		<groupId>eu.ddmore.workflow</groupId>
+		<artifactId>DDMoRe-BWF-Main</artifactId>
+		<version>1.0.0</version>
+	</parent>	
+		
+	<artifactId>DDMoRe-BWF-Distribution</artifactId>
+	<packaging>pom</packaging>
+	<version>1.0.0</version>
+	<description>
+		Created only to assemble the whole project for distribution. 
+		It has no code and no resource, only pom file configuration 
+		and an assembly descriptor file.
+	</description>
+	
+	<build>
+		<plugins>
+			<plugin>
+		        <artifactId>maven-antrun-plugin</artifactId>
+		        <version>1.8</version>
+		        <executions>
+		        	<execution>
+		            	<phase>package</phase>
+							<configuration>
+								<tasks>
+									<copy todir="./dist">
+									    <fileset dir="./tomcat">
+									        <include name="**/*"/>
+									    </fileset>
+									</copy>
+									<copy todir="./dist/bwf">
+									    <fileset dir="./bwf-conf">
+									        <include name="*.*"/>
+									    </fileset>
+									</copy>
+									<copy todir="./dist/webapps">
+									    <fileset dir="../DDMoRe-BWF-Rest/target">
+									        <include name="bwf-rest.war"/>
+									    </fileset>
+									</copy>
+									<copy todir="./dist/webapps">
+									    <fileset dir="../DDMoRe-WorkflowServer-Rest/target">
+									        <include name="workflow-server-rest.war"/>
+									    </fileset>
+									</copy>
+									<copy todir="./dist/workflow-server-testdata">
+									    <fileset dir="./workflow-server-testdata">
+									        <include name="**/*"/>
+									    </fileset>
+									</copy>
+									<copy todir="./dist/webapps">
+									    <fileset dir="../DDMoRe-BWF-Web/target">
+									        <include name="bwf.war"/>
+									    </fileset>
+									</copy>
+								</tasks>
+		            		</configuration>
+		            	<goals>
+		              		<goal>run</goal>
+		            	</goals>
+		          	</execution>
+		        </executions>
+	      	</plugin>
+		</plugins>
+	</build>
+	
+</project>
