@@ -1,0 +1,52 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<beans xmlns="http://www.springframework.org/schema/beans"
+	   xmlns:xsi="http://www.w3.org/2001/XMLSchema-instance"
+	   xmlns:context="http://www.springframework.org/schema/context"
+	   xmlns:task="http://www.springframework.org/schema/task"
+	   xmlns:aop="http://www.springframework.org/schema/aop"
+	   xmlns:tx="http://www.springframework.org/schema/tx"
+	   xmlns:jee="http://www.springframework.org/schema/jee"
+	   xmlns:jdbc="http://www.springframework.org/schema/jdbc"
+	   xsi:schemaLocation="http://www.springframework.org/schema/beans http://www.springframework.org/schema/beans/spring-beans.xsd
+			http://www.springframework.org/schema/task http://www.springframework.org/schema/task/spring-task.xsd		
+			http://www.springframework.org/schema/aop http://www.springframework.org/schema/aop/spring-aop.xsd		
+			http://www.springframework.org/schema/tx http://www.springframework.org/schema/tx/spring-tx.xsd
+			http://www.springframework.org/schema/context http://www.springframework.org/schema/context/spring-context.xsd
+			http://www.springframework.org/schema/jee http://www.springframework.org/schema/jee/spring-jee.xsd
+			http://www.springframework.org/schema/jdbc http://www.springframework.org/schema/jdbc/spring-jdbc.xsd">
+	
+    <!-- Enable annotation for spring beans -->
+	<context:annotation-config />
+    
+ 	<!-- Enables spring scheduling annotation -->
+	<task:annotation-driven />
+
+ 	<!-- Packages to scan for spring beans -->
+	<context:component-scan base-package="eu.ddmore.workflow.server" />
+	
+	<!-- Enables mbean support (e.g. jconsole) -->
+	<context:mbean-export registration="replaceExisting" />
+
+	<!-- Use CGLIB2 for your proxies instead of jdk proxys -->
+	<aop:config proxy-target-class="true" />
+
+	<!-- Enables annotation for aspect interceptors -->
+	<aop:aspectj-autoproxy />
+
+	<!-- Bootstrap class -->
+	<bean id="main" class="eu.ddmore.workflow.server.rest.Application" />	
+
+	<!-- Get Spring ApplicationContext from everywhere -->
+	<bean id="contextApplicationContextProvider" class="eu.ddmore.workflow.server.rest.spring.ApplicationContextProvider" />
+
+    <!-- Load properties -->
+    <context:property-placeholder location="classpath:workflow-server-rest.properties" />
+    <bean id="applicationProperties" class="org.springframework.beans.factory.config.PropertiesFactoryBean">
+        <property name="locations">
+            <list>
+                <value>classpath:workflow-server-rest.properties</value>
+            </list>
+        </property>
+    </bean>
+		
+</beans>

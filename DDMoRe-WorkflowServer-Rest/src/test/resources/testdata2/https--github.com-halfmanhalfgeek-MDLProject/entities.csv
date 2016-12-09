@@ -1,0 +1,17 @@
+id;prov_type;qc;base;final;pivotal
+repo:911493aa4eb180787e86b19d4275071565a8df46/models/warfarin_conc.csv;ddmore:dataset;;;;
+repo:3103d73a24a57321080d46ef04fd7c016b514000/models/Step1.mdl;ddmore:model;true;true;;
+repo:3aece133a2727bfe71767f8e29b16d5d77c81a90/models/UseCase2.mdl;ddmore:model;true;;true;
+repo:3103d73a24a57321080d46ef04fd7c016b514000/scripts/Step1.R;ddmore:plan;;;;
+repo:4bf8c20c3cd38f233f23bfff3412fe63d78b4f26/models/Step1/Step1/Step1_project/Step1_model.txt;ddmore:output;;;;
+repo:4bf8c20c3cd38f233f23bfff3412fe63d78b4f26/models/Step1/GOF_MLX_1.png;ddmore:image;;;;
+repo:4bf8c20c3cd38f233f23bfff3412fe63d78b4f26/models/Step1/converter.out;ddmore:output;;;;
+repo:4bf8c20c3cd38f233f23bfff3412fe63d78b4f26/models/Step1/Step1/tables.xmlx;ddmore:output;;;;
+repo:4bf8c20c3cd38f233f23bfff3412fe63d78b4f26/models/Step1/stderr.txt;ddmore:output;;;;
+repo:4bf8c20c3cd38f233f23bfff3412fe63d78b4f26/models/Step1/stdout.txt;ddmore:output;;;;
+repo:4bf8c20c3cd38f233f23bfff3412fe63d78b4f26/models/Step1/warfarin_conc.csv;ddmore:output;;;;
+repo:4bf8c20c3cd38f233f23bfff3412fe63d78b4f26/models/Step1/Step1/warfarin_conc.csv;ddmore:output;;;;
+repo:4bf8c20c3cd38f233f23bfff3412fe63d78b4f26/models/Step1/Step1.mdl;ddmore:output;;;;
+repo:4bf8c20c3cd38f233f23bfff3412fe63d78b4f26/models/Step1/conversionReport.log;ddmore:output;;;;
+repo:4bf8c20c3cd38f233f23bfff3412fe63d78b4f26/models/Step1/GOF_MLX_2.png;ddmore:image;;;;
+repo:4bf8c20c3cd38f233f23bfff3412fe63d78b4f26/models/Step1/GOF_MLX_3.png;ddmore:image;;;;
