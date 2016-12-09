@@ -1,0 +1,79 @@
+<!DOCTYPE html>
+<html xmlns="http://www.w3.org/1999/xhtml"
+      xmlns:h="http://java.sun.com/jsf/html"
+      xmlns:f="http://java.sun.com/jsf/core"
+      xmlns:ui="http://java.sun.com/jsf/facelets"
+      xmlns:p="http://primefaces.org/ui">
+
+    <h:head>
+    
+        <f:facet name="first">
+        
+            <meta http-equiv="X-UA-Compatible" content="IE=edge" />
+            <meta http-equiv="Content-Type" content="text/html; charset=UTF-8" />
+            <meta name="viewport" content="width=device-width, initial-scale=1.0, maximum-scale=1.0, user-scalable=0" />
+            <meta name="apple-mobile-web-app-capable" content="yes" />
+            <link rel="icon" type="image/png" href="#{request.contextPath}/resources/bwf/images/picto_workflow.ico" />
+            
+        </f:facet>
+    
+        <title>
+			<h:outputText value="#{msgs.html_title}" />
+		</title>
+		
+        <ui:insert name="head" />
+        
+    </h:head>
+
+    <h:body styleClass="hold-transition login-page">
+    
+		<h:form id="mainForm" prependId="false">
+
+			<f:metadata>
+				<f:event type="preRenderView" listener="#{loginBacking.preRender}"/>
+			</f:metadata>
+			
+			<div class="login-box">
+				
+				<div class="login-logo">
+			  		<a href="http://www.ddmore.eu/" target="_blank" class="DispBlock Fleft FloatNoneOnMobile" title="Go to DDMoRe page">
+                		<h:graphicImage name="images/logo_ddmore.png" library="bwf" style="height:40px;" />
+                	</a>
+			  	</div>
+			  	
+			  	<div class="login-box-body">
+			  	
+			    	<p class="login-box-msg"><h:outputText value="#{msgs.v_login_title}" /></p>
+			
+			      	<div class="form-group has-feedback">
+			        	<p:inputText id="j_username" value="#{loginBacking.username}" placeholder="#{msgs.v_login_username}" styleClass="form-control" />
+			      	</div>
+			      	
+			      	<div class="form-group has-feedback">
+			        	<p:password id="j_password" value="#{loginBacking.password}" placeholder="#{msgs.v_login_password}" styleClass="form-control" />
+			      	</div>
+			      	
+			      	<div class="form-group has-feedback">
+				        <div class="Wid100">
+				        	<p:commandButton value="#{msgs.v_login_bt_login}" action="#{loginBacking.login}" ajax="false" 
+				        			styleClass="btn btn-primary btn-block btn-flat Wid100" />
+				        </div>
+					</div>
+			
+				</div>
+				
+			</div>
+			
+	    </h:form>
+
+		<!-- Stylesheets -->
+		<h:outputStylesheet name="css/bootstrap.css" library="bootstrap" />
+        <h:outputStylesheet name="css/AdminLTE.css" library="lte" />
+        <h:outputStylesheet name="css/_all-skins.css" library="lte" />
+        <h:outputStylesheet name="css/primefaces_override.css" library="bwf" />
+        <h:outputStylesheet name="css/lte-override.css" library="bwf" />
+        <h:outputStylesheet name="css/bwf.css" library="bwf" />		
+        
+    </h:body>
+
+</html>

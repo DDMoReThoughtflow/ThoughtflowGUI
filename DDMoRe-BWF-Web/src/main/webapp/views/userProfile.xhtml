@@ -1,0 +1,126 @@
+<ui:composition xmlns="http://www.w3.org/1999/xhtml"
+				xmlns:h="http://java.sun.com/jsf/html"
+        		xmlns:f="http://java.sun.com/jsf/core"
+        		xmlns:ui="http://java.sun.com/jsf/facelets"
+        		xmlns:p="http://primefaces.org/ui"
+        		xmlns:pe="http://primefaces.org/ui/extensions"
+        		xmlns:o="http://omnifaces.org/ui"
+				xmlns:of="http://omnifaces.org/functions"
+				xmlns:bwf="http://java.sun.com/jsf/composite/components"
+        		template="/templates/template.default.xhtml">
+
+    <ui:define name="content">
+		
+		<bwf:title value="#{msgs.v_userProfile_title}" />
+		
+		<div class="box content-box">
+			
+			<div class="Container100">
+		    	<div class="Card">
+		            
+		            <h1 class="CardBigTopic" style="margin-top:0;">
+		            	<h:outputText value="#{msgs.v_userProfile_data}" />
+		            </h1>
+		             
+		            <div class="SeparatorFull"></div>
+		            
+		            <h:panelGrid columns="2" columnClasses="grid-left FontBold,grid-right">
+		            	<h:outputText value="#{msgs.v_userProfile_name}" />
+		            	<h:outputText value="#{sessionBean.user.fullName}" />
+		            	<h:outputText value="#{msgs.v_userProfile_access}" />
+		            	<h:panelGroup>
+		            		<ui:repeat var="auth" value="#{sessionBean.user.authorities.authorities}" varStatus="status">
+			   					<h:outputText value=", " rendered="#{status.index != 0}" />
+			   					<h:outputText value="#{msgs[auth.role]}" />
+			   				</ui:repeat>
+		            	</h:panelGroup>
+		            	<h:outputText value="#{msgs.v_userProfile_projects}" />
+		            	<h:outputText value="#{userProfileBacking.projects.size()}" />
+		            </h:panelGrid>
+		             
+		         </div>
+			</div>
+			
+		</div>
+		
+		<div class="box content-box">
+			
+			<div class="Container100">      
+				<div class="Card">
+		            
+		            <h1 class="CardBigTopic" style="margin-top:0;">
+		            	<h:outputText value="#{msgs.v_userProfile_projects}" />
+		            </h1>
+		             
+		            <div class="SeparatorFull"></div>
+		            
+		            <div style="width:100%;height:450px;overflow-x:hidden;overflow-y:auto;">
+		            	<table id="idTblProjects" cellspacing="3" style="width:100%">
+		            		<ui:repeat var="p" value="#{userProfileBacking.projects}">
+		            			<tr>
+		            				<td align="left" style="width:80px;">
+		            					<i class="fa fa-book"></i>
+		            				</td>
+		            				<td align="left">
+		            					<h:link outcome="project?id=#{p.model.id}" class="text-decoration-dashed">
+		            						<h:outputText value="#{p.model.name}" />
+		            					</h:link>
+									</td>
+		            			</tr>
+		            			<tr>
+		            				<td>
+		            					<h:outputText value="#{msgs.v_userProfile_priority}" />
+		            				</td>
+									<td>
+					            		<span class="text-muted">
+					            			<h:outputText value="#{msgs[p.model.priority]}" />
+					            		</span>
+									</td>
+		            			</tr>
+		            			<tr>
+		            				<td>
+		            					<h:outputText value="#{msgs.v_userProfile_gitUrl}" />
+		            				</td>
+									<td>
+					            		<span class="text-muted">
+					            			<h:outputText value="#{p.model.gitUrl}" />
+					            		</span>
+									</td>
+		            			</tr>
+		            			<tr>
+		            				<td>
+		            					<h:outputText value="#{msgs.v_userProfile_access}" />
+		            				</td>
+									<td>
+					            		<span class="text-muted">
+					            			<h:outputText value="#{p.accessString}" />
+					            		</span>
+									</td>
+		            			</tr>
+		            			<tr>
+		            				<td>
+		            					<h:outputText value="#{msgs.v_userProfile_reviewers}" />
+		            				</td>
+									<td>
+					            		<span class="text-muted">
+					            			<h:outputText value="#{p.reviewersString}" />
+					            		</span>
+									</td>
+		            			</tr>
+		            			<tr>
+		            				<td colspan="2">
+		            					<div class="SeparatorFull"></div>
+		            				</td>
+		            			</tr>
+		            		</ui:repeat>
+		            	</table>
+		            </div>
+		            
+				</div>
+			</div>
+			
+		</div>
+
+    </ui:define>
+
+</ui:composition>

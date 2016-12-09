@@ -1,0 +1,36 @@
+<?xml version="1.0" encoding="UTF-8"?>
+
+<beans xmlns="http://www.springframework.org/schema/beans"
+	   xmlns:xsi="http://www.w3.org/2001/XMLSchema-instance"
+	   xmlns:context="http://www.springframework.org/schema/context"
+	   xmlns:aop="http://www.springframework.org/schema/aop"
+	   xmlns:jee="http://www.springframework.org/schema/jee"
+	   xsi:schemaLocation="http://www.springframework.org/schema/beans http://www.springframework.org/schema/beans/spring-beans.xsd
+			http://www.springframework.org/schema/aop http://www.springframework.org/schema/aop/spring-aop.xsd		
+			http://www.springframework.org/schema/context http://www.springframework.org/schema/context/spring-context.xsd">
+	
+    <!-- Enable annotation for spring beans -->
+	<context:annotation-config />
+
+ 	<!-- Packages to scan for spring beans -->
+	<context:component-scan base-package="eu.ddmore.workflow.bwf" />
+
+	<!-- Use CGLIB2 for your proxies instead of jdk proxys -->
+	<aop:config proxy-target-class="true" />
+
+	<!-- Get Spring ApplicationContext from everywhere -->
+	<bean id="contextApplicationContextProvider" class="eu.ddmore.workflow.bwf.web.spring.ApplicationContextProvider" />
+    
+ 	<!-- Load properties -->
+	<context:property-placeholder location="classpath:bwf-web-env.properties,classpath:bwf-web-version.properties,classpath:bwf-web.properties" />
+    <bean id="applicationProperties" class="org.springframework.beans.factory.config.PropertiesFactoryBean">
+        <property name="locations">
+            <list>
+                <value>classpath:bwf-web-env.properties</value>
+                <value>classpath:bwf-web-version.properties</value>
+                <value>classpath:bwf-web.properties</value>
+            </list>
+        </property>
+    </bean>
+	
+</beans>

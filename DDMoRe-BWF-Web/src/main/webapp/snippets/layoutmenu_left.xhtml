@@ -1,0 +1,95 @@
+<ui:composition xmlns="http://www.w3.org/1999/xhtml"
+    			xmlns:f="http://java.sun.com/jsf/core"
+    			xmlns:h="http://java.sun.com/jsf/html"
+    			xmlns:ui="http://java.sun.com/jsf/facelets"
+    			xmlns:p="http://primefaces.org/ui"
+    			xmlns:po="http://primefaces.org/olympos">
+
+	<aside class="main-sidebar">
+	
+		<div class="slimScrollDiv">
+		
+			<!-- sidebar: style can be found in sidebar.less -->
+		    <section class="sidebar">
+		    
+		      	<!-- sidebar menu: : style can be found in sidebar.less -->
+				<ul class="sidebar-menu">
+		      		
+		      		<!-- Static application menu -->
+					<li class="header">#{msgs.menu_category_projects}</li>
+	        		<li>
+		        		<h:link outcome="ownProjects">
+		        			<i class="fa fa-file-o"></i> <span>#{msgs.menu_ownProjects}</span>
+		        		</h:link>
+	        		</li>
+	        		<li>
+	          			<h:link outcome="reviewerProjects">
+	            			<i class="fa fa-files-o"></i> <span>#{msgs.menu_reviewerProjects}</span>
+	          			</h:link>
+	        		</li>
+	         		<li>
+	          			<h:link outcome="createProject">
+	            			<i class="fa fa-plus-square"></i> <span>#{msgs.menu_createProject}</span>
+	          			</h:link>
+	        		</li>
+		        		
+	        		<!-- Team menu -->
+	        		<h:panelGroup rendered="#{not empty sessionBean.user.members.users}">
+	        	
+						<li class="header">TEAM</li>
+						<ui:repeat var="member" value="#{sessionBean.user.members.users}">
+			         		<li>
+			          			<h:link outcome="userProjects">
+			            			<i class="fa fa-user"></i> <span>#{member.fullName}</span>
+			            			<f:param name="id" value="#{member.id}" />
+			          			</h:link>
+			        		</li>
+						</ui:repeat>
+	
+					</h:panelGroup>
+	
+		      		<!-- Settings -->
+					<li class="header">#{msgs.menu_category_userSettings}</li>
+	        		<li>
+		        		<h:link outcome="userProfile">
+		        			<i class="fa fa-cog"></i> <span>#{msgs.menu_user}</span>
+		        		</h:link>
+	        		</li>
+	
+		      		<!-- Help -->
+					<li class="header">#{msgs.menu_category_helpFiles}</li>
+	        		<li>
+	        			<a href="http://www.ddmore.eu/sites/ddmore/files/instructions/pdf/MDLUserGuide_1.1_PublicRelease_August2016_0.pdf" target="_blank">
+	        				<i class="fa fa-file-pdf-o"></i> <span class="white-space-normal">MDLUserGuide 1.1 PublicRelease August2016</span>
+	        			</a>
+	        		</li>
+	        		<li>
+	        			<a href="http://www.ddmore.eu/sites/ddmore/files/instructions/pdf/MDL reference version 1.0.pdf" target="_blank">
+	        				<i class="fa fa-file-pdf-o"></i> <span class="white-space-normal">MDL reference version 1.0</span>
+	        			</a>
+	        		</li>
+	        		<li>
+	        			<a href="http://www.ddmore.eu/sites/ddmore/files/instructions/pdf/SoftwareReleaseNote_Demonstrator2.0.0.pdf" target="_blank">
+	        				<i class="fa fa-file-pdf-o"></i> <span class="white-space-normal">SoftwareReleaseNote Demonstrator 2.0.0</span>
+	        			</a>
+	        		</li>
+	        		<li>
+	        			<a href="http://www.ddmore.eu/sites/ddmore/files/instructions/pdf/SEEInstallationGuide_Demonstrator2.0.0.pdf" target="_blank">
+	        				<i class="fa fa-file-pdf-o"></i> <span class="white-space-normal">SEEInstallationGuide Demonstrator 2.0.0</span>
+	        			</a>
+	        		</li>
+	        		<li>
+	        			<a href="http://www.ddmore.eu/sites/ddmore/files/instructions/pdf/Features_and_known_issues_0.pdf" target="_blank">
+	        				<i class="fa fa-file-pdf-o"></i> <span class="white-space-normal">Features and known issues</span>
+	        			</a>
+	        		</li>
+		        
+		      	</ul>
+		      
+			</section>
+			
+		</div>
+	    
+	</aside>
+	  
+</ui:composition>

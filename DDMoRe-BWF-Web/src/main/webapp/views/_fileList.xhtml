@@ -1,0 +1,107 @@
+<ui:composition xmlns="http://www.w3.org/1999/xhtml"
+				xmlns:h="http://java.sun.com/jsf/html"
+        		xmlns:f="http://java.sun.com/jsf/core"
+        		xmlns:ui="http://java.sun.com/jsf/facelets"
+        		xmlns:p="http://primefaces.org/ui"
+        		xmlns:pe="http://primefaces.org/ui/extensions"
+        		xmlns:o="http://omnifaces.org/ui"
+				xmlns:of="http://omnifaces.org/functions"
+        		xmlns:bwf="http://java.sun.com/jsf/composite/components">
+
+	<p:dataTable widgetVar="varTblEntities" value="#{files}" var="bean" paginator="true" paginatorPosition="bottom"
+			paginatorTemplate="{CurrentPageReport}  {FirstPageLink} {PreviousPageLink} {PageLinks} {NextPageLink} {LastPageLink} {RowsPerPageDropdown}"
+	        rowsPerPageTemplate="5,10,15,30,50,100" rows="15" emptyMessage="#{msgs.txt_empty_message}" reflow="true">
+
+           	<p:column headerText="#{msgs.tbl_files_col_name}" sortBy="#{bean.model.name}" 
+           			filterBy="#{bean.model.name}" filterMatchMode="contains">
+				<p:commandLink actionListener="#{backing.doShowFile(bean)}" styleClass="text-decoration-dashed" onclick="showWaitMe()">
+					<h:outputText value="#{bean.model.name}" />
+           		</p:commandLink>						             	
+           	</p:column>
+           	<p:column headerText="#{msgs.tbl_files_col_path}" sortBy="#{bean.model.path}" 
+           			filterBy="#{bean.model.path}" filterMatchMode="contains">
+				<h:outputText id="idPath" value="#{bean.path}" />
+				<p:tooltip value="#{bean.model.path}" for="idPath" position="top" escape="false" rendered="#{bean.pathAbbreviated}" />
+           	</p:column>
+           	<p:column headerText="#{msgs.tbl_files_col_type}" width="110" styleClass="TexAlCenter" sortBy="#{bean.model.provType}" 
+           			filterBy="#{msgs[bean.model.provType]}" filterMatchMode="contains">
+           		<h:outputText value="#{msgs[bean.model.provType]}" />
+           	</p:column>
+           	<p:column headerText="#{msgs.tbl_files_col_lastModified}" width="140" styleClass="TexAlCenter" 
+           			sortBy="#{bean.model.modifiedAt}" filterBy="#{bean.model.modifiedAt}" filterFunction="#{backing.filterByDate}">
+           		<h:outputText value="#{bean.model.modifiedAt}">
+					<f:convertDateTime pattern="#{msgs.pattern_date_time_m}" />
+      			</h:outputText>
+           	</p:column>
+           	<p:column headerText="#{msgs.tbl_files_col_qcStatus}" width="110" 
+           			sortBy="#{bean.model.passedQc}" filterBy="#{bean.model.passedQc}" styleClass="TexAlCenter">
+				<f:facet name="filter">
+					<p:selectOneMenu onchange="PF('varTblEntities').filter()">
+	                    <f:converter converterId="javax.faces.Boolean" />
+	                    <f:selectItem itemLabel="#{msgs.txt_all}" itemValue="" />
+	                    <f:selectItem itemLabel="#{msgs.txt_yes}" itemValue="true" />
+	                    <f:selectItem itemLabel="#{msgs.txt_no}" itemValue="false" />
+	                </p:selectOneMenu>				
+	            </f:facet>		    
+           		<h:outputText value="#{bean.model.passedQc ? msgs.txt_yes : msgs.txt_no}" rendered="#{not empty bean.model.passedQc}" />
+           	</p:column>
+           	<p:column headerText="#{msgs.tbl_files_col_final}" width="90" styleClass="TexAlCenter" 
+           			sortBy="#{bean.model.finalModel}" filterBy="#{bean.model.finalModel}">
+				<f:facet name="filter">
+					<p:selectOneMenu onchange="PF('varTblEntities').filter()">
+	                    <f:converter converterId="javax.faces.Boolean" />
+	                    <f:selectItem itemLabel="#{msgs.txt_all}" itemValue="" />
+	                    <f:selectItem itemLabel="#{msgs.txt_yes}" itemValue="true" />
+	                    <f:selectItem itemLabel="#{msgs.txt_no}" itemValue="false" />
+	                </p:selectOneMenu>				
+	            </f:facet>		    
+           		<p:selectBooleanCheckbox value="#{bean.model.finalModel}" rendered="#{bean.isModel}" styleClass="tbl-chbx">
+           			<p:ajax process="@this" update="@this" listener="#{backing.markModel(bean.model)}" />
+           		</p:selectBooleanCheckbox>
+           	</p:column>
+           	<p:column headerText="#{msgs.tbl_files_col_base}" width="90" styleClass="TexAlCenter" 
+           			sortBy="#{bean.model.baseModel}" filterBy="#{bean.model.baseModel}">
+				<f:facet name="filter">
+					<p:selectOneMenu onchange="PF('varTblEntities').filter()">
+	                    <f:converter converterId="javax.faces.Boolean" />
+	                    <f:selectItem itemLabel="#{msgs.txt_all}" itemValue="" />
+	                    <f:selectItem itemLabel="#{msgs.txt_yes}" itemValue="true" />
+	                    <f:selectItem itemLabel="#{msgs.txt_no}" itemValue="false" />
+	                </p:selectOneMenu>				
+	            </f:facet>		    
+           		<p:selectBooleanCheckbox value="#{bean.model.baseModel}" rendered="#{bean.isModel}" styleClass="tbl-chbx">
+           			<p:ajax process="@this" update="@this" listener="#{backing.markModel(bean.model)}" />
+           		</p:selectBooleanCheckbox>
+           	</p:column>
+           	<p:column headerText="#{msgs.tbl_files_col_pivotal}" width="90" styleClass="TexAlCenter" 
+           			sortBy="#{bean.model.pivotalModel}" filterBy="#{bean.model.pivotalModel}">
+				<f:facet name="filter">
+					<p:selectOneMenu onchange="PF('varTblEntities').filter()">
+	                    <f:converter converterId="javax.faces.Boolean" />
+	                    <f:selectItem itemLabel="#{msgs.txt_all}" itemValue="" />
+	                    <f:selectItem itemLabel="#{msgs.txt_yes}" itemValue="true" />
+	                    <f:selectItem itemLabel="#{msgs.txt_no}" itemValue="false" />
+	                </p:selectOneMenu>				
+	            </f:facet>		    
+           		<p:selectBooleanCheckbox value="#{bean.model.pivotalModel}" rendered="#{bean.isModel}" styleClass="tbl-chbx">
+           			<p:ajax process="@this" update="@this" listener="#{backing.markModel(bean.model)}" />
+           		</p:selectBooleanCheckbox>
+           	</p:column>
+           	<p:column headerText="#{msgs.tbl_files_col_activities}" filterBy="#{bean.activitiesString}">
+				<ui:repeat var="activity" value="#{bean.model.activities.activities}" varStatus="status">
+		   			<h:outputText value=", " rendered="#{status.index != 0}" />
+		   			<h:link id="idLnkActivity" value="#{activity.label}" outcome="repo" styleClass="text-decoration-dashed">
+		   				<f:param name="idProject" value="#{backing.idProject}" />
+		   				<f:param name="idActivity" value="#{activity.id}" />
+	       			 	<f:param name="pageStage" value="1" />
+		   			</h:link>
+		   			<p:tooltip value="#{activity.description}" for="idLnkActivity" position="top" escape="false" rendered="#{not empty activity.description}" />
+		   		</ui:repeat>	             		
+           	</p:column>
+           	<p:column headerText="#{msgs.tbl_files_col_actions}" width="80" styleClass="TexAlCenter">
+           		<p:commandLink value="#{msgs.tbl_files_lnk_auditTrail}" onclick="callAuditTrail(#{backing.idProject}, '#{bean.model.id}')" styleClass="text-decoration-dashed" />
+           	</p:column>
+	        
+	</p:dataTable>
+																	          
+</ui:composition>

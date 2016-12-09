@@ -1,0 +1,22 @@
+<ui:composition xmlns="http://www.w3.org/1999/xhtml"
+				xmlns:h="http://java.sun.com/jsf/html"
+        		xmlns:f="http://java.sun.com/jsf/core"
+        		xmlns:ui="http://java.sun.com/jsf/facelets"
+        		xmlns:p="http://primefaces.org/ui"
+        		xmlns:pe="http://primefaces.org/ui/extensions"
+        		xmlns:o="http://omnifaces.org/ui"
+				xmlns:of="http://omnifaces.org/functions"
+        		xmlns:bwf="http://java.sun.com/jsf/composite/components"
+        		template="/templates/template.default.xhtml">
+
+    <ui:define name="content">
+			
+		<bwf:title value="#{userProjectBacking.selectedUser.fullName}" />
+		
+		<ui:include src="_projectList.xhtml">
+			<ui:param name="backing" value="#{userProjectBacking}" />
+		</ui:include>
+				
+    </ui:define>
+
+</ui:composition>

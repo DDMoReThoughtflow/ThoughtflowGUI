@@ -1,0 +1,103 @@
+<!DOCTYPE html>
+<html xmlns="http://www.w3.org/1999/xhtml"
+      xmlns:h="http://java.sun.com/jsf/html"
+      xmlns:f="http://java.sun.com/jsf/core"
+      xmlns:ui="http://java.sun.com/jsf/facelets"
+      xmlns:p="http://primefaces.org/ui"
+      xmlns:bwf="http://java.sun.com/jsf/composite/components">
+
+    <h:head>
+        
+        <f:facet name="first">
+            
+            <meta http-equiv="X-UA-Compatible" content="IE=edge" />
+            <meta http-equiv="Content-Type" content="text/html; charset=UTF-8" />
+            <meta name="viewport" content="width=device-width, initial-scale=1.0, maximum-scale=1.0, user-scalable=0"/>
+            <meta name="apple-mobile-web-app-capable" content="yes" />
+            <link rel="icon" type="image/png" href="#{request.contextPath}/resources/bwf/images/picto_workflow.ico" />
+
+        </f:facet>
+        
+        <title>
+        	<h:outputText value="#{msgs.html_title}" />
+        </title>
+		
+		<ui:insert name="head" />
+		
+        <!-- Javascripts -->
+        <h:outputScript name="js/bootstrap.js" library="bootstrap" />
+        <h:outputScript name="js/jquery.slimscroll.min.js" library="bootstrap" />
+        <h:outputScript name="js/jquery.slimscroll.min.js" library="bootstrap" />
+        <h:outputScript name="js/app.js" library="lte" />
+        <h:outputScript name="js/bwf.js" library="bwf" />
+
+		<!-- Set javascript variable 'contextPath' global available -->
+		<script type="text/javascript">
+		//<![CDATA[
+			var contextPath = '#{request.contextPath}';        
+		//]]>
+		</script>
+        
+    </h:head>
+    
+	<h:body class="hold-transition skin-blue sidebar-mini fixed">
+    
+		<h:form id="mainForm" prependId="false">
+	    
+			<div class="wrapper">
+			
+				<header class="main-header">
+			  
+					<!-- Logo -->
+				    <a href="http://www.ddmore.eu/" target="_blank" class="logo">
+				    	<!-- mini logo for sidebar mini 50x50 pixels -->
+				      	<span class="logo-mini">
+				      		<h:graphicImage name="images/picto_workflow.png" library="bwf" style="height:25px;" />
+				      	</span>
+				      	<!-- logo for regular state and mobile devices -->
+				      	<span class="logo-lg">
+				      		<h:graphicImage name="images/logo_ddmore_white.png" library="bwf" style="height:25px;" />
+				      	</span>
+				    </a>
+				    
+				    <!-- Header Navbar: style can be found in header.less -->
+				    <ui:include src="../snippets/topbar.xhtml" />
+				    
+			  	</header>
+			
+				<!-- Left side column. contains the sidebar -->
+				<ui:include src="../snippets/layoutmenu_left.xhtml" />
+			
+			  	<!-- Content Wrapper. Contains page content -->
+			  	<div class="content-wrapper" style="padding-top:55px;">
+			  	
+				    <!-- Main content -->
+				    <section class="content">
+			
+				      	<ui:insert name="content">
+							Template
+						</ui:insert>
+				      
+				      	<div class="box">
+				      		<ui:include src="../snippets/footer.xhtml" />
+				      	</div>
+			
+			    	</section>
+			    
+			  	</div>
+
+				<!-- Stylesheets -->
+				<h:outputStylesheet name="css/bootstrap.css" library="bootstrap" />
+		        <h:outputStylesheet name="css/AdminLTE.css" library="lte" />
+		        <h:outputStylesheet name="css/_all-skins.css" library="lte" />
+		        <h:outputStylesheet name="css/primefaces_override.css" library="bwf" />
+		        <h:outputStylesheet name="css/lte-override.css" library="bwf" />
+		        <h:outputStylesheet name="css/bwf.css" library="bwf" />
+		        
+			</div>
+		
+		</h:form>
+		
+	</h:body>
+
+</html>

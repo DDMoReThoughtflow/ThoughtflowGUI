@@ -1,0 +1,93 @@
+<ui:composition xmlns="http://www.w3.org/1999/xhtml"
+				xmlns:h="http://java.sun.com/jsf/html"
+        		xmlns:f="http://java.sun.com/jsf/core"
+        		xmlns:ui="http://java.sun.com/jsf/facelets"
+        		xmlns:p="http://primefaces.org/ui"
+        		xmlns:pe="http://primefaces.org/ui/extensions"
+        		xmlns:o="http://omnifaces.org/ui"
+				xmlns:of="http://omnifaces.org/functions"
+        		xmlns:bwf="http://java.sun.com/jsf/composite/components"
+        		template="/templates/template.default.xhtml">
+
+    <ui:define name="content">
+		
+		<h:outputScript name="js/d3.v3.min.js" library="bwf" />
+		<h:outputScript name="js/d3tip.js" library="bwf" />
+
+		<script type="text/javascript">
+		//<![CDATA[
+			function setSvgData() {
+				var svgString = new XMLSerializer().serializeToString(document.querySelector('svg'));
+				$('#idTxtSvgData').val(svgString);
+			}
+		//]]>
+		</script>
+
+		<p:remoteCommand name="nodeSelected" actionListener="#{auditTrailBacking.onClickNode}" update="idTitle chartJs chart"  />
+		
+		<h:inputHidden id="idTxtSvgData" value="#{auditTrailBacking.svgData}" />
+		
+		<h:panelGroup id="idTitle">
+			<bwf:title value="#{msgs.v_auditTrail_title}" sub="#{auditTrailBacking.subTitle}" />
+		</h:panelGroup>
+		
+		<div class="box content-box">
+		
+			<div class="Container100">
+		    	<div class="Card">		
+	
+			        <!-- Export -->
+			        <h:panelGrid columns="4">
+				        <h:outputText value="#{msgs.v_auditTrail_depth}" />
+				        <p:spinner id="idSpnDepth" value="#{auditTrailBacking.depth}" size="4" min="0" max="10" stepFactor="1" styleClass="audit-trail-btn">
+				        	<p:ajax listener="#{auditTrailBacking.depthChanged}" update="chartJs chart" />
+				        </p:spinner>
+						<p:commandButton value="#{msgs.txt_exportChart}" icon="fa fa-file-image-o" styleClass="White audit-trail-btn" 
+								action="#{auditTrailBacking.exportSvg}" onclick="setSvgData()" ajax="false" />
+						<p:commandButton value="#{msgs.txt_reset}" icon="fa fa-refresh" styleClass="White audit-trail-btn" 
+								action="#{auditTrailBacking.reset}" update="idTitle idSpnDepth chartJs chart" />
+			        </h:panelGrid>
+	
+		    		<!-- Chart -->
+		    		<h:panelGroup id="chart" layout="block" styleClass="clsChart" />
+					
+					<!-- Legend -->
+					<div class="legend-container" style="text-align:center">
+						<div class="legend">
+							<div class="symbol-circle activity"></div>
+							<div class="symbol-name">#{msgs.model_activity}</div>
+							<div class="symbol-circle agent"></div>
+							<div class="symbol-name">#{msgs.model_agent}</div>
+							<div class="symbol-circle entity"></div>
+							<div class="symbol-name">#{msgs.model_entity}</div>
+						</div>
+					</div>
+								
+				</div>
+			</div>
+			
+		</div>
+		
+		<h:panelGroup id="chartJs">
+			<script type="text/javascript">
+			//<![CDATA[
+				var dataset = #{auditTrailBacking.json};
+				
+				function onClickCircle(d) {
+					tip.hide();
+					nodeSelected([
+						{name:'nodeName',     value:d.name}, 
+						{name:'nodeLocation', value:d.location}, 
+						{name:'nodeLabel', value:d.label},
+						{name:'nodeType',     value:d.type.toLowerCase()}
+					]);
+					tip.hide();
+				}
+			//]]>
+			</script>
+			<h:outputScript name="js/d3jsPage.js" library="bwf" />
+		</h:panelGroup>
+			
+    </ui:define>
+
+</ui:composition>

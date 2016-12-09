@@ -1,0 +1,29 @@
+<ui:composition xmlns="http://www.w3.org/1999/xhtml"
+				xmlns:h="http://java.sun.com/jsf/html"
+        		xmlns:f="http://java.sun.com/jsf/core"
+        		xmlns:ui="http://java.sun.com/jsf/facelets"
+        		xmlns:p="http://primefaces.org/ui"
+        		xmlns:pe="http://primefaces.org/ui/extensions"
+        		xmlns:o="http://omnifaces.org/ui"
+				xmlns:of="http://omnifaces.org/functions"
+        		xmlns:bwf="http://java.sun.com/jsf/composite/components"
+        		template="/templates/template.error.xhtml">
+	
+    <ui:define name="content">
+		
+		<section class="content">
+  			<div class="error-page">
+      			<h2 class="headline text-yellow"> 404</h2>
+       			<div class="error-content">
+       				<h3><i class="fa fa-warning text-yellow"></i> Oops! Page not found.</h3>
+         			<p>
+            			We could not find the page you were looking for. <br />
+            			Meanwhile, you may <h:link outcome="ownProjects" value="return to your projects" />.
+         			</p>
+       			</div>
+			</div>
+  		</section>
+    
+    </ui:define>
+
+</ui:composition>

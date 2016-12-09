@@ -1,0 +1,63 @@
+<pretty-config xmlns="http://ocpsoft.org/schema/rewrite-config-prettyfaces" 
+ 	xmlns:xsi="http://www.w3.org/2001/XMLSchema-instance" 
+  	xsi:schemaLocation="http://ocpsoft.org/schema/rewrite-config-prettyfaces
+                      http://ocpsoft.org/xml/ns/prettyfaces/rewrite-config-prettyfaces.xsd">
+	  
+	<rewrite match="/views/(\w+).jsf" substitute="/$1" redirect="301" />
+
+	<url-mapping id="login">
+		<pattern value="/login" />
+		<view-id value="/views/login.jsf" />
+	</url-mapping>
+
+	<url-mapping id="ownProjects">
+		<pattern value="/ownProjects" />
+		<view-id value="/views/ownProjects.jsf" />
+	</url-mapping>
+
+	<url-mapping id="reviewerProjects">
+		<pattern value="/reviewerProjects" />
+		<view-id value="/views/reviewerProjects.jsf" />
+	</url-mapping>
+
+	<url-mapping id="userProjects">
+		<pattern value="/userProjects" />
+		<view-id value="/views/userProjects.jsf" />
+	</url-mapping>
+
+	<url-mapping id="createProject">
+		<pattern value="/createProject" />
+		<view-id value="/views/createProject.jsf" />
+	</url-mapping>
+	
+	<url-mapping id="repo">
+		<pattern value="/repo" />
+		<view-id value="/views/repo.jsf" />
+	</url-mapping>
+	
+	<url-mapping id="userProfile">
+		<pattern value="/userProfile" />
+		<view-id value="/views/userProfile.jsf" />
+	</url-mapping>
+
+	<url-mapping id="auditTrail">
+		<pattern value="/auditTrail" />
+		<view-id value="/views/auditTrail.jsf" />
+	</url-mapping>
+	
+	<url-mapping id="404">
+		<pattern value="/404" />
+		<view-id value="/views/404.jsf" />
+	</url-mapping>
+
+	<url-mapping id="access-denied">
+		<pattern value="/access-denied" />
+		<view-id value="/views/access-denied.jsf" />
+	</url-mapping>
+
+	<url-mapping id="error">
+		<pattern value="/error" />
+		<view-id value="/views/error.jsf" />
+	</url-mapping>
+	
+</pretty-config>

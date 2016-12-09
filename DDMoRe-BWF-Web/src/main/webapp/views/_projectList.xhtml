@@ -1,0 +1,83 @@
+<ui:composition xmlns="http://www.w3.org/1999/xhtml"
+				xmlns:h="http://java.sun.com/jsf/html"
+        		xmlns:f="http://java.sun.com/jsf/core"
+        		xmlns:ui="http://java.sun.com/jsf/facelets"
+        		xmlns:p="http://primefaces.org/ui"
+        		xmlns:pe="http://primefaces.org/ui/extensions"
+        		xmlns:o="http://omnifaces.org/ui"
+				xmlns:of="http://omnifaces.org/functions"
+        		xmlns:bwf="http://java.sun.com/jsf/composite/components">
+	
+	<div class="box content-box">
+            
+        <!-- Export -->
+ 		<h:outputText value="#{msgs.txt_export}" style="margin:0 8px 0 0;" /> 
+		<p:splitButton value="#{msgs.txt_word}" icon="fa fa-file-word-o" action="#{backing.exportWord}" ajax="false">
+			<p:menuitem value="#{msgs.txt_csv}" icon="fa fa-file-text-o" action="#{backing.exportCsv}" ajax="false" />
+		</p:splitButton>
+           
+		<div class="SeparatorFull"></div>
+             
+		<p:dataTable id="idDataTable" value="#{backing.projects}" var="bean" selectionMode="single" rowKey="#{bean.model.id}" rows="15" 
+				paginatorTemplate="{CurrentPageReport}  {FirstPageLink} {PreviousPageLink} {PageLinks} {NextPageLink} {LastPageLink} {RowsPerPageDropdown}"
+            	paginator="true" paginatorPosition="bottom" rowsPerPageTemplate="5,10,15,30,50,100" emptyMessage="#{msgs.txt_empty_message}" 
+            	reflow="true" sortBy="#{bean.model.name}" sortOrder="ascending" editable="true" editMode="cell">
+              
+            <p:ajax event="cellEdit" listener="#{backing.onCellEdit(bean)}" update="idDataTable" />
+                     
+           	<p:column headerText="#{msgs.v_project_col_name}" sortBy="#{bean.model.name}" filterBy="#{bean.model.name}">
+           		<h:link outcome="repo" value="#{bean.model.name}" styleClass="text-decoration-dashed" title="#{bean.model.gitUrl}">
+           			 <f:param name="idProject" value="#{bean.model.id}" />
+           			 <f:param name="pageStage" value="1" />
+           		</h:link>
+           	</p:column>
+           	<p:column headerText="#{msgs.v_project_col_priority}" sortBy="#{bean.model.priority}" 
+           			filterBy="#{bean.model.priority}" styleClass="TexAlCenter">
+				<p:cellEditor rendered="#{backing.canChange}">
+              		<f:facet name="output">
+              			<h:outputText value="#{msgs[bean.model.priority]}" />
+              		</f:facet>
+              		<f:facet name="input">
+                  		<p:selectOneMenu value="#{bean.model.priority}" style="width:50%">
+                      		<f:selectItems value="#{projectPriorityItems.selectItems}" />
+                  		</p:selectOneMenu>
+              		</f:facet>
+          		</p:cellEditor>             			
+          		<h:outputText value="#{msgs[bean.model.priority]}" rendered="#{not backing.canChange}" />
+           	</p:column>
+           	<p:column headerText="#{msgs.v_project_col_owner}" sortBy="#{bean.model.priority}" 
+           			filterBy="#{bean.model.priority}" filterMatchMode="contains" styleClass="TexAlCenter">
+           		<h:outputText value="#{bean.model.owner.fullName}" />
+           	</p:column>
+           	<p:column headerText="#{msgs.v_project_col_access}" filterBy="#{bean.accessString}" 
+           			filterMatchMode="contains" styleClass="TexAlCenter">
+	   		<ui:repeat var="access" value="#{bean.access}" varStatus="status">
+	   			<h:outputText value=", " rendered="#{status.index != 0}" />
+	   			<h:outputText value="#{access}" />
+	   		</ui:repeat>
+           	</p:column>
+           	<p:column headerText="#{msgs.v_project_col_reviewers}" filterBy="#{bean.reviewersString}" 
+           			filterMatchMode="contains" styleClass="TexAlCenter">
+	   		<ui:repeat var="reviewer" value="#{bean.reviewers}" varStatus="status">
+	   			<h:outputText value=", " rendered="#{status.index != 0}" />
+	   			<h:outputText value="#{reviewer}" />
+	   		</ui:repeat>
+           	</p:column>
+           	<p:column headerText="#{msgs.txt_created}" styleClass="TexAlCenter" sortBy="#{bean.model.createdAt}" 
+           			filterBy="#{bean.model.createdAt}" filterFunction="#{backing.filterByDate}">
+           		<h:outputText value="#{bean.model.createdAt}">
+           			<f:convertDateTime pattern="#{msgs.pattern_date_time_m}" />
+           		</h:outputText>
+           	</p:column>
+           	<p:column headerText="#{msgs.txt_modified}" styleClass="TexAlCenter" sortBy="#{bean.model.modifiedAt}" 
+           			filterBy="#{bean.model.modifiedAt}" filterFunction="#{backing.filterByDate}">
+           		<h:outputText value="#{bean.model.modifiedAt}">
+           			<f:convertDateTime pattern="#{msgs.pattern_date_time_m}" />
+           		</h:outputText>
+           	</p:column>
+           	
+		</p:dataTable>
+           
+	</div>
+										          
+</ui:composition>

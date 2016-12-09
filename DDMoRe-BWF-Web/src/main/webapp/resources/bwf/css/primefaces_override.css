@@ -1,0 +1,56 @@
+.ui-button span {
+	font-weight:normal !important;
+}
+.ui-datatable th {
+	font-weight:normal !important;
+}
+.ui-chkbox .ui-chkbox-label {
+	margin:-2px 0 0 10px;
+}
+.ui-selectonemenu .ui-selectonemenu-trigger {
+	padding: 4px 14px;
+	background:#fafafa;
+}
+.ui-selectonemenu .ui-selectonemenu-trigger .ui-icon {
+	margin-left: -7px;
+}
+.ui-button-text-icon-left .ui-icon.fa {
+	margin-left: 10px;
+}
+.ui-button, button.ui-button.ui-state-default, .ui-button.ui-state-default {
+	padding:3px 10px;
+}
+.ui-inputfield {
+	background-color:#fafafa !important;
+}
+.ui-chkbox-box.ui-state-default {
+	background: #fafafa;
+    border: solid 1px #d1d1d1;
+    cursor:pointer;
+}
+.ui-chkbox-box.ui-state-active {
+	border: 1px solid #156090;
+    background: #186ba0;
+}
+.ui-chkbox-box.ui-state-active .ui-icon, .ui-radiobutton-box.ui-state-active .ui-icon {
+	margin-top: -2px;
+    margin-left: -1px;
+}
+.ui-datatable thead th, .ui-datatable tbody td {
+	padding:4px 6px;
+}
+.ui-datatable tr {
+	border-color:#d9d9d9 !important;
+}
+.ui-column-customfilter .ui-selectonemenu-trigger .ui-icon.ui-icon-triangle-1-s {
+	margin-left:9px;
+}
+.ui-column-customfilter .ui-selectonemenu {
+	min-width:65px;
+}
+.ui-spinner-input {
+	padding-right:27px;
+}
+.ui-spinner-button {
+	cursor:pointer;
+}

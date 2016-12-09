@@ -1,0 +1,103 @@
+<?xml version="1.0" encoding="UTF-8"?>
+
+<beans xmlns="http://www.springframework.org/schema/beans"
+	   xmlns:xsi="http://www.w3.org/2001/XMLSchema-instance"
+	   xmlns:context="http://www.springframework.org/schema/context"
+       xmlns:security="http://www.springframework.org/schema/security"
+	   xsi:schemaLocation="http://www.springframework.org/schema/beans http://www.springframework.org/schema/beans/spring-beans.xsd
+	   		http://www.springframework.org/schema/context http://www.springframework.org/schema/context/spring-context.xsd
+			http://www.springframework.org/schema/security http://www.springframework.org/schema/security/spring-security.xsd">
+
+    <!-- Enable annotation-based security -->
+    <security:global-method-security secured-annotations="enabled" />
+	
+	<security:http pattern="/images/**" security="none" /> 
+	    
+    <!-- HTTP basic authentication in Spring Security -->
+	<security:http use-expressions="true">
+
+	    <!-- Configure the roles allowed to access the app -->
+	    <security:intercept-url pattern="/index.html" access="permitAll" />
+	    <security:intercept-url pattern="/login" access="permitAll" />
+	    <security:intercept-url pattern="/404" access="permitAll" />
+	    <security:intercept-url pattern="/access-denied" access="permitAll" />
+	    <security:intercept-url pattern="/error" access="permitAll" />
+	    <security:intercept-url pattern="/javax.faces.resource/**" access="permitAll" />
+	    <security:intercept-url pattern="/**" access="hasAnyRole('ROLE_SCIENTIST', 'ROLE_MANAGER', 'ROLE_ADMIN')" />
+
+		<!-- Adds Support for basic authentication -->
+		<security:http-basic />
+	    
+	    <!-- Override default logout page -->
+	    <security:form-login login-page="/login" 
+	    					 login-processing-url="/j_spring_security_check"
+	    					 default-target-url="/${defaultPage}"
+	    					 always-use-default-target="true"
+	                         authentication-failure-url="/login?login_error=1" />
+
+	    <!-- Override default logout page -->
+	    <security:logout invalidate-session="true"
+           				 delete-cookies="JSESSIONID"
+           				 logout-success-url="/login" />
+	    
+	</security:http>
+	
+	<!-- Spring profile: database -->
+	<beans profile="database">
+		<security:authentication-manager erase-credentials="true">
+			<security:authentication-provider ref="databaseAuthenticationProvider" />
+		</security:authentication-manager>
+	
+		<bean id="databaseAuthenticationProvider" class="eu.ddmore.workflow.bwf.web.spring.DatabaseAuthenticationProvider">
+			<property name="userService" ref="userService" />
+		</bean>	
+	</beans>
+	
+	<!-- Spring profile: production -->
+	<beans profile="ldap">
+		<!-- Define LDAP server and user -->
+		<security:ldap-server id="contextSource" 
+							  url="ldap://${ldap.server}:${ldap.port}/"
+							  manager-dn="${ldap.manager.user}"
+							  manager-password="${ldap.manager.password}" />
+			 
+		<security:authentication-manager erase-credentials="true">
+			<security:authentication-provider ref="ldapAuthProvider" />
+		</security:authentication-manager>
+		 
+		 
+		<!-- Using bean-based configuration here to set the DefaultLdapAuthoritiesPopulater with          --> 
+		<!-- ignorePartialResultsException=true. This is a known Spring/AD issue and a workaround for it. -->
+		<bean id="ldapAuthProvider" class="org.springframework.security.ldap.authentication.LdapAuthenticationProvider">
+			<constructor-arg>
+				<!-- The bind authenticator will first lookup the user using the service account --> 
+				<!-- credentials, then attempt to bind the user with their password once found   --> 
+				<bean id="bindAuthenticator" class="org.springframework.security.ldap.authentication.BindAuthenticator">
+					<constructor-arg ref="contextSource" />
+					<property name="userSearch" ref="userSearch" />
+				</bean>
+			</constructor-arg>
+			
+			<constructor-arg>
+				<bean class="org.springframework.security.ldap.userdetails.DefaultLdapAuthoritiesPopulator">
+					<constructor-arg ref="contextSource" />
+					<constructor-arg value="${ldap.groupSearchBase}" /> <!-- group search base -->
+					<!-- You can add a default role to everyone if needed  -->
+					<!-- <property name="defaultRole" value="ROLE_USER" /> --> 
+					<property name="searchSubtree" value="true" />
+					<property name="ignorePartialResultException" value="true" />
+					<property name="groupSearchFilter" value="(member={0})" />
+				</bean>
+			</constructor-arg>
+		</bean>
+		
+		<bean id="userSearch" class="org.springframework.security.ldap.search.FilterBasedLdapUserSearch">
+			<constructor-arg index="0" value="${ldap.groupSearchBase}" />
+			<constructor-arg index="1" value="(sAMAccountName={0})" />
+			<constructor-arg index="2" ref="contextSource" />
+			<property name="searchSubtree" value="true" />
+		</bean>
+		
+	</beans>
+	
+</beans>

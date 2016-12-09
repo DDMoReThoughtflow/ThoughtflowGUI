@@ -1,0 +1,88 @@
+<!DOCTYPE html>
+<html xmlns="http://www.w3.org/1999/xhtml"
+      xmlns:h="http://java.sun.com/jsf/html"
+      xmlns:f="http://java.sun.com/jsf/core"
+      xmlns:ui="http://java.sun.com/jsf/facelets"
+      xmlns:p="http://primefaces.org/ui"
+      xmlns:bwf="http://java.sun.com/jsf/composite/components">
+
+    <h:head>
+        
+        <f:facet name="first">
+            
+            <meta http-equiv="X-UA-Compatible" content="IE=edge" />
+            <meta http-equiv="Content-Type" content="text/html; charset=UTF-8" />
+            <meta name="viewport" content="width=device-width, initial-scale=1.0, maximum-scale=1.0, user-scalable=0"/>
+            <meta name="apple-mobile-web-app-capable" content="yes" />
+            <link rel="icon" type="image/png" href="#{request.contextPath}/resources/bwf/images/picto_workflow.ico" />
+
+        </f:facet>
+        
+        <title>
+        	<h:outputText value="#{msgs.html_title}" />
+        </title>
+		
+		<ui:insert name="head" />
+		
+        <!-- Javascripts -->
+        <h:outputScript name="js/bootstrap.js" library="bootstrap" />
+        <h:outputScript name="js/jquery.slimscroll.min.js" library="bootstrap" />
+        <h:outputScript name="js/app.js" library="lte" />
+        <h:outputScript name="js/bwf.js" library="bwf" />
+
+		<!-- Set javascript variable 'contextPath' global available -->
+		<script type="text/javascript">
+		//<![CDATA[
+			var contextPath = '#{request.contextPath}';        
+		//]]>
+		</script>
+		
+		<style type="text/css">
+			html {
+				background-color:#ecf0f5;
+			}
+			.content-wrapper {
+				margin-left:0;
+			}
+			.error-content h3 {
+				padding-top:40px;
+			}
+		</style>
+        
+    </h:head>
+    
+	<h:body class="skin-blue">
+    
+		<h:form id="mainForm" prependId="false">
+	    
+			<div class="wrapper">
+			
+			  	<!-- Content Wrapper. Contains page content -->
+			  	<div class="content-wrapper">
+			  	
+				    <!-- Main content -->
+				    <section class="content">
+			
+				      	<ui:insert name="content">
+							Template
+						</ui:insert>
+				      
+			    	</section>
+			    
+			  	</div>
+
+				<!-- Stylesheets -->
+				<h:outputStylesheet name="css/bootstrap.css" library="bootstrap" />
+		        <h:outputStylesheet name="css/AdminLTE.css" library="lte" />
+		        <h:outputStylesheet name="css/_all-skins.css" library="lte" />
+		        <h:outputStylesheet name="css/primefaces_override.css" library="bwf" />
+		        <h:outputStylesheet name="css/lte-override.css" library="bwf" />
+		        <h:outputStylesheet name="css/bwf.css" library="bwf" />
+		        
+			</div>
+		
+		</h:form>
+		
+	</h:body>
+
+</html>

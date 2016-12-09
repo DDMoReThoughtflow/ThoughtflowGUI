@@ -1,0 +1,259 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<web-app version="3.0"
+         xmlns="http://java.sun.com/xml/ns/javaee"
+         xmlns:xsi="http://www.w3.org/2001/XMLSchema-instance"
+         xsi:schemaLocation="http://java.sun.com/xml/ns/javaee http://java.sun.com/xml/ns/javaee/web-app_3_0.xsd" >
+	
+	<display-name>ddmore-bwf</display-name>
+	
+    <welcome-file-list>
+        <welcome-file>index.html</welcome-file>
+    </welcome-file-list>
+    
+	<!-- Remove JSESSIONID from URL -->
+	<session-config>
+		<cookie-config>
+			<http-only>true</http-only>
+		</cookie-config>
+		<tracking-mode>COOKIE</tracking-mode>
+		<session-timeout>1440</session-timeout> <!-- 24h -->
+	</session-config>
+    
+	<!-- Time in seconds that facelets should be checked for changes  --> 
+	<!-- since last request. A value of -1 disables refresh checking. -->
+	<!-- Should be -1 for production (so, cached infinitely).         -->
+	<context-param>
+	    <param-name>javax.faces.FACELETS_REFRESH_PERIOD</param-name>
+	    <param-value>0</param-value>
+	</context-param>
+    
+    <!-- Remove HTML comments in Facelets -->
+	<context-param>
+	    <param-name>javax.faces.FACELETS_SKIP_COMMENTS</param-name>
+	    <param-value>true</param-value>
+	</context-param>
+
+	<context-param>
+		<param-name>javax.faces.FACELETS_BUFFER_SIZE</param-name>
+		<param-value>65535</param-value> <!-- 64KB -->
+	</context-param>
+    
+ 	<!-- The JSF parameter javax.faces.STATE_SAVING_METHOD identifies where the state of the view is stored between requests.      -->
+	<!-- By default, the state is saved in the servlet session. Set the STATE_SAVING_METHOD parameter to client in the             -->
+	<!-- context-param stanza of the web.xml file, so that JSF stores the state of the entire view in a hidden field on the        -->
+	<!-- rendered page. If you do not, then JSF may attempt to cache that state, which is not serializable, in the session object. -->
+    <context-param>
+        <param-name>javax.faces.STATE_SAVING_METHOD</param-name>
+        <param-value>server</param-value>
+    </context-param>
+
+	<!-- http://balusc.omnifaces.org/2015/10/the-empty-string-madness.html            -->
+	<!-- If you're using Tomcat or a fork/clone of it (JBoss AS, WebSphere AS, etc)   -->
+	<!-- and/or the container uses the Apache EL parser implementation, then you also --> 
+	<!-- need to add the following argument to its VM startup arguments: 	 		  -->
+	<!-- 	'-Dorg.apache.el.parser.COERCE_TO_ZERO=false'							  -->
+	<context-param>
+	    <param-name>javax.faces.INTERPRET_EMPTY_STRING_SUBMITTED_VALUES_AS_NULL</param-name>
+	    <param-value>true</param-value> 
+	</context-param>	
+    
+	<context-param>
+		<param-name>javax.faces.CONFIG_FILES</param-name>
+		<param-value>/WEB-INF/faces-config.xml</param-value>
+	</context-param>
+    
+ 	<!-- Set the project stage to "Development", "UnitTest", "SystemTest", or "Production". -->
+	<!-- An optional parameter that makes troubleshooting errors much easier. 				-->
+	<!-- You should remove this context parameter before deploying to production! 			-->
+    <context-param>
+        <param-name>javax.faces.PROJECT_STAGE</param-name>
+        <param-value>Production</param-value>
+    </context-param>
+    
+    <context-param>
+        <param-name>primefaces.THEME</param-name>
+        <param-value>omega</param-value>
+    </context-param>
+	
+    <context-param>
+        <param-name>primefaces.FONT_AWESOME</param-name>
+        <param-value>true</param-value>
+    </context-param>
+    
+	<!-- Primefaces Legacy Widget Namespace -->
+	<context-param>
+	    <param-name>primefaces.LEGACY_WIDGET_NAMESPACE</param-name>
+	    <param-value>true</param-value>
+	</context-param>
+    
+    <context-param>
+		<param-name>javax.faces.DATETIMECONVERTER_DEFAULT_TIMEZONE_IS_SYSTEM_TIMEZONE</param-name>
+		<param-value>true</param-value>
+	</context-param>
+	
+	<context-param>
+        <param-name>com.sun.faces.enableMissingResourceLibraryDetection</param-name>
+        <param-value>true</param-value>
+    </context-param>
+    
+ 	<!-- Spring configuration files -->
+	<context-param>
+		<param-name>contextConfigLocation</param-name>
+		<param-value>classpath:eu/ddmore/workflow/bwf/web/applicationContext.xml,classpath:eu/ddmore/workflow/bwf/web/securityContext.xml</param-value>
+	</context-param>
+
+	<!-- Spring Application Context Loader -->
+	<listener>
+		<listener-class>org.springframework.web.context.ContextLoaderListener</listener-class>
+	</listener>
+    
+  	<!-- Needed for Sessions Scope Beans -->
+	<listener>
+		<listener-class>org.springframework.web.context.request.RequestContextListener</listener-class>
+	</listener>
+	
+    <listener>
+        <listener-class>com.sun.faces.config.ConfigureListener</listener-class>
+    </listener>
+	
+	<!-- Primefaces FileUpload Temporary Files: Close listener -->
+	<listener>
+    	<listener-class>org.apache.commons.fileupload.servlet.FileCleanerCleanup</listener-class>
+	</listener>
+
+	<!-- Enables Spring Security -->
+    <filter>
+        <filter-name>springSecurityFilterChain</filter-name>
+        <filter-class>org.springframework.web.filter.DelegatingFilterProxy</filter-class>
+    </filter>
+	<filter-mapping>
+		<filter-name>springSecurityFilterChain</filter-name>
+		<url-pattern>/*</url-pattern>
+		<dispatcher>FORWARD</dispatcher>
+		<dispatcher>REQUEST</dispatcher>
+	</filter-mapping>
+    
+	<!-- This filter will set the request body character encoding when not already set by the client. -->
+	<!-- Even though JSF2/Facelets uses by default UTF-8 everywhere, which is the best charset choice -->
+	<!-- these days, JSF2/Facelets might fail to set it to UTF-8 when something else has set it to a  -->
+	<!-- different value before JSF2/Facelets gets the chance to set it during the restore view phase -->
+	<filter>
+		<filter-name>characterEncodingFilter</filter-name>
+		<filter-class>org.omnifaces.filter.CharacterEncodingFilter</filter-class>
+	</filter>
+	<filter-mapping>
+		<filter-name>characterEncodingFilter</filter-name>
+		<url-pattern>/*</url-pattern>
+	</filter-mapping>
+	
+	<!-- Apply GZIP compression on responses whenever applicable. GZIP will   -->
+	<!-- greatly reduce the response size when applied on character based     -->
+	<!-- responses like HTML, CSS and JS this filter allows a servlet         --> 
+	<!-- container independent way of configuring GZIP compression  and a     -->
+	<!-- lso allows enabling GZIP compression anyway on 3rd party hosts where -->
+	<!-- you have no control over servlet container configuration             -->
+	<filter>
+		<filter-name>gzipResponseFilter</filter-name>
+		<filter-class>org.omnifaces.filter.GzipResponseFilter</filter-class>
+	</filter>
+	<filter-mapping>
+		<filter-name>gzipResponseFilter</filter-name>
+		<url-pattern>/*</url-pattern>
+		<dispatcher>REQUEST</dispatcher>
+		<dispatcher>ERROR</dispatcher>
+	</filter-mapping>
+
+	<!-- Audit trail servlet to get json data -->
+	<servlet>
+	    <servlet-name>auditTrailServlet</servlet-name>
+	    <servlet-class>eu.ddmore.workflow.bwf.web.servlet.AuditTrailServlet</servlet-class>
+	    <async-supported>true</async-supported>
+	</servlet>
+	<servlet-mapping>
+	    <servlet-name>auditTrailServlet</servlet-name>
+	    <url-pattern>/auditTrailServlet</url-pattern>
+	</servlet-mapping>
+
+ 	<!-- JSF servlet -->	
+    <servlet>
+        <servlet-name>Faces Servlet</servlet-name>
+        <servlet-class>javax.faces.webapp.FacesServlet</servlet-class>
+    </servlet>
+    <servlet-mapping>
+        <servlet-name>Faces Servlet</servlet-name>
+        <url-pattern>*.jsf</url-pattern>
+    </servlet-mapping>
+    <servlet-mapping>
+        <servlet-name>Faces Servlet</servlet-name>
+        <url-pattern>*.xhtml</url-pattern>
+    </servlet-mapping>
+    
+    <!-- Error pages -->
+	<error-page>
+	    <exception-type>javax.faces.application.ViewExpiredException</exception-type >
+	    <location>/views/project.jsf</location>
+	</error-page>
+	<error-page>
+	    <error-code>401</error-code> <!-- Unauthorized -->
+	    <location>/views/access-denied.jsf</location>
+	</error-page>
+	<error-page>
+	    <error-code>403</error-code> <!-- Forbidden -->
+	    <location>/views/access-denied.jsf</location>
+	</error-page>
+	<error-page>
+	    <error-code>404</error-code> <!-- Not Found -->
+	    <location>/views/404.jsf</location>
+	</error-page>
+	<error-page>
+    	<exception-type>java.lang.Throwable</exception-type>
+     	<location>/views/error.jsf</location>
+   	</error-page>
+
+	<!-- Font awesome integration in Primefaces -->
+    <mime-mapping>
+        <extension>ttf</extension>
+        <mime-type>application/font-sfnt</mime-type>
+    </mime-mapping>
+    <mime-mapping>
+        <extension>woff</extension>
+        <mime-type>application/font-woff</mime-type>
+    </mime-mapping>
+    <mime-mapping>
+        <extension>woff2</extension>
+        <mime-type>application/font-woff2</mime-type>
+    </mime-mapping>
+    <mime-mapping>
+        <extension>eot</extension>
+        <mime-type>application/vnd.ms-fontobject</mime-type>
+    </mime-mapping>
+    <mime-mapping>
+        <extension>eot?#iefix</extension>
+        <mime-type>application/vnd.ms-fontobject</mime-type>
+    </mime-mapping>
+    <mime-mapping>
+        <extension>svg</extension>
+        <mime-type>image/svg+xml</mime-type>
+    </mime-mapping>
+    <mime-mapping>
+        <extension>svg#exosemibold</extension>
+        <mime-type>image/svg+xml</mime-type>
+    </mime-mapping>
+    <mime-mapping>
+        <extension>svg#exobolditalic</extension>
+        <mime-type>image/svg+xml</mime-type>
+    </mime-mapping>
+    <mime-mapping>
+        <extension>svg#exomedium</extension>
+        <mime-type>image/svg+xml</mime-type>
+    </mime-mapping>
+    <mime-mapping>
+        <extension>svg#exoregular</extension>
+        <mime-type>image/svg+xml</mime-type>
+    </mime-mapping>
+    <mime-mapping>
+        <extension>svg#fontawesomeregular</extension>
+        <mime-type>image/svg+xml</mime-type>
+    </mime-mapping>
+	  
+</web-app>

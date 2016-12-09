@@ -1,0 +1,254 @@
+@charset "UTF-8";
+
+/**
+ * Common application styles
+ */
+.grid-left {
+	/*font-weight: bold;*/
+	padding: 10px 8px 0 0;
+} 
+.grid-right {
+	padding: 10px 0 0 0;
+} 
+.text-muted {
+    color: #777;
+}
+.txt-readonly {
+	color: #525252 !important;
+	opacity: 1 !important;
+}
+table.no-border, table.no-border tr td {
+	border: none !important;
+	background-color: #fff !important;
+}
+.prime-input-100-percent {
+	width: 100% !important;
+}		
+.white-space-normal {
+	white-space: normal;	
+}
+
+/**
+ * Dialog
+ */
+.ui-dialog.dialog-detail .ui-dialog-content {
+  padding: 0 !important;
+}
+.ui-dialog-content .ContainerIndent {
+	margin: 20px 20px 0 20px !important;
+}
+.dlg-col-left {
+	padding-right: 5px;
+   	padding-bottom: 5px;
+}
+.dlg-col-right {
+	padding-bottom: 5px;
+}  
+.modal-footer {
+	margin: 10px 0 0 0;  
+  	padding: 15px;
+  	text-align: center;
+  	border-top: 1px solid #e5e5e5;
+}
+
+/**
+ * Dashed text decoration for links
+ */
+a.text-decoration-dashed, .text-decoration-dashed a {
+	text-decoration: none !important;
+	border-bottom: dashed 1px #0088cc;
+	color: #0088cc;
+}
+.text-decoration-none {
+	text-decoration: none !important;
+	border-bottom: none !important;
+}
+
+/**
+ * Busy overlay
+ */
+.modal {
+    display:    none;
+    position:   fixed;
+    z-index:    1000;
+    top:        0;
+    left:       0;
+    height:     100%;
+    width:      100%;
+    background: rgba( 255, 255, 255, .8 ) 
+                url("#{resource['bwf:images/ajax-loader.gif']}")
+                50% 50% 
+                no-repeat;
+}
+body.loading {
+    overflow: hidden;   
+}
+body.loading .modal {
+    display: block;
+}
+
+/**
+ * Back to top link
+ */
+.cd-top {
+	display: inline-block;
+	height: 40px;
+	width: 40px;
+	position: fixed;
+	bottom: 60px;
+	right: 10px;
+	box-shadow: 0 0 10px rgba(0, 0, 0, 0.05);
+	/* image replacement properties */
+	overflow: hidden;
+	text-indent: 100%;
+	white-space: nowrap;
+	background: rgba(21,120,201, 0.8) url("#{resource['bwf:images/cd-top-arrow.svg']}") no-repeat center 50%;
+	opacity: 0;
+	-webkit-transition: opacity .3s 0s, visibility 0s .3s;
+	-moz-transition: opacity .3s 0s, visibility 0s .3s;
+	transition: opacity .3s 0s, visibility 0s .3s;
+}
+.cd-top.cd-is-visible, .cd-top.cd-fade-out, .no-touch .cd-top:hover {
+	-webkit-transition: opacity .3s 0s, visibility 0s 0s;
+  	-moz-transition: opacity .3s 0s, visibility 0s 0s;
+  	transition: opacity .3s 0s, visibility 0s 0s;
+}
+.cd-top.cd-is-visible {
+	/* the button becomes visible */
+  	visibility: visible;
+  	opacity: 1;
+}
+.cd-top.cd-fade-out {
+	/* if the user keeps scrolling down, the button is out of focus and becomes less visible */
+  	opacity: .5;
+}
+.no-touch .cd-top:hover {
+	background-color: #e86256;
+  	opacity: 1;
+}
+@media only screen and (min-width: 768px) {
+	.cd-top {
+    	right: 20px;
+    	bottom: 20px;
+  	}
+  	.cd-top-end {
+  		bottom: 70px !important;
+  	}
+}
+@media only screen and (min-width: 1024px) {
+	.cd-top {
+		height: 60px;
+    	width: 60px;
+    	right: 30px;
+    	bottom: 30px;
+  	}
+  	.cd-top-end {
+  		bottom: 150px !important;
+  	}
+}
+
+/**
+ * Clipboard hidden input
+ */
+.clipboard-input {
+	width: 1px;
+	position: relative;
+	right: 0px;
+	z-index: -1;	
+}
+
+/**
+ * Layout and Theme extended Text Aligns
+ */
+.TexAlCenterImp { 
+	text-align: center !important;
+}
+.TexAlLeftImp { 
+	text-align: left !important;
+}
+.TexAlRightNoImp { 
+	text-align: right;
+}
+
+/**
+ * D3JS
+ */
+.node:hover {
+	stroke: #000 !important;
+    stroke-width: 1.5px !important;
+	cursor: pointer !important;
+}
+.activity {
+	fill: #ffe124 !important;
+}
+.agent {
+	fill: #666 !important;
+}
+.entity {
+	fill: #59a003 !important;
+}
+.symbol-circle {
+	width: 15px;
+	height: 15px;
+	border-radius: 100%;
+	margin-right: 5px;
+}
+.symbol-name {
+	margin-right: 15px;
+}
+.legend div {
+	display: inline-block;
+}
+.legend .activity {
+	background: #ffe124;
+}
+.legend .agent {
+	background: #666;
+}
+.legend .entity {
+	background: #59a003;
+}
+.d3-tip {
+  	line-height: 1;
+	font-weight: bold;
+	padding: 12px;
+	background: rgba(0, 0, 0, 0.8);
+	color: #fff;
+	border-radius: 2px;
+}
+.d3-tip:after {
+	box-sizing: border-box;
+	display: inline;
+	font-size: 10px;
+	width: 100%;
+	line-height: 1;
+	color: rgba(0, 0, 0, 0.8);
+	content: "\25BC";
+	position: absolute;
+	text-align: center;
+}
+.d3-tip.n:after {
+	margin: -1px 0 0 0;
+	top: 100%;
+	left: 0;
+}		
+
+/**
+ * Dialog: 'Create Project'
+ */
+.createProject-txt-projectname {
+	width: 250px;	
+} 
+.createProject-txt-giturl {
+	width: 400px;	
+} 
+
+/**
+ * Page: 'repoEntities'
+ */
+.breadcrump-readonly {
+	opacity: 1 !important;
+}
+#idBreadCrump a {
+	color: #0088cc;
+}

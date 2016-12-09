@@ -1,0 +1,411 @@
+<ui:composition xmlns="http://www.w3.org/1999/xhtml"
+				xmlns:h="http://java.sun.com/jsf/html"
+        		xmlns:f="http://java.sun.com/jsf/core"
+        		xmlns:ui="http://java.sun.com/jsf/facelets"
+        		xmlns:p="http://primefaces.org/ui"
+        		xmlns:pe="http://primefaces.org/ui/extensions"
+        		xmlns:o="http://omnifaces.org/ui"
+				xmlns:of="http://omnifaces.org/functions"
+        		xmlns:bwf="http://java.sun.com/jsf/composite/components"
+        		template="/templates/template.default.xhtml">
+	
+    <ui:define name="content">
+		
+		<script type="text/javascript">
+		//<![CDATA[
+			function setSvgData() {
+				var svgString = new XMLSerializer().serializeToString(document.querySelector('svg'));
+				$('#idTxtSvgData').val(svgString);
+			}
+		//]]>
+		</script>
+		
+		<h:outputScript name="js/d3.v3.min.js" library="bwf" />
+		<h:outputScript name="js/d3tip.js" library="bwf" />
+
+		<p:remoteCommand name="activitySelected" actionListener="#{repoBacking.onClickActivity}" 
+				update="idTabViewActivities:idTblActivities idPnlActivityFiles" />
+		
+		<h:inputHidden id="idTxtSvgData" value="#{repoBacking.svgData}" />
+		
+		<div class="box content-box">
+		
+			<div class="Container100">
+		    	<div class="Card">
+	
+	
+					<!-- Breadcrumps -->
+			   		<p:breadCrumb id="idBreadCrump" model="#{repoBacking.breadCrumb}" homeDisplay="false" style="height:37px" />
+			   		<div class="EmptyBox20" />
+	
+	
+					<!-- Page title -->				    		
+		    		<h1 class="CardBigTopic">
+		    			<h:panelGroup rendered="#{repoBacking.pageStage == 0}">
+		            		<h:outputText value="#{msgs.repo_title_entities}" />
+		    				<h:outputText value="[&#32;" style="margin:0 0 0 10px" />
+		    				<h:link value="#{msgs.repo_title_entitiesSwithTo}" styleClass="text-decoration-dashed">
+		    					<f:param name="idProject" value="#{repoBacking.idProject}" />
+	             			 	<f:param name="pageStage" value="1" />
+		    				</h:link>
+		    				<h:outputText value="&#32;]" />
+		    			</h:panelGroup>
+		    			<h:panelGroup rendered="#{repoBacking.pageStage == 1}">
+		    				<h:outputText value="#{msgs.repo_title_activities}" />
+		    				<h:outputText value="[&#32;" style="margin:0 0 0 10px" />
+		    				<h:link value="#{msgs.repo_title_activitiesSwithTo}" styleClass="text-decoration-dashed">
+		    					<f:param name="idProject" value="#{repoBacking.idProject}" />
+	             			 	<f:param name="pageStage" value="0" />
+		    				</h:link>
+		    				<h:outputText value="&#32;]" />
+		    			</h:panelGroup>
+		    			<h:panelGroup rendered="#{repoBacking.pageStage == 2}">
+		    				<h:outputText value="#{msgs.repo_title_file}" />
+		    			</h:panelGroup>
+		    			<h:panelGroup rendered="#{repoBacking.pageStage == 3}">
+		    				<h:outputText value="#{msgs.repo_title_editAccess}" />
+		    			</h:panelGroup>
+		    			<h:panelGroup rendered="#{repoBacking.pageStage == 4}">
+		    				<h:outputText value="#{msgs.repo_title_editReviewers}" />
+		    			</h:panelGroup>
+		    			<h:panelGroup rendered="#{repoBacking.pageStage == 5}">
+		    				<h:outputText value="#{msgs.repo_title_assumptions}" />
+		    			</h:panelGroup>
+		            </h1>
+		    		<div class="SeparatorFull"></div>
+		    		
+		    		
+			        <!-- Export -->
+			        <div class="EmptyBox5" />
+					<h:outputText value="#{msgs.txt_export}" style="margin:0 8px 0 10px;" /> 
+					<p:splitButton value="#{msgs.txt_word}" icon="ui-icon-check fa fa-file-word-o White Fs14" action="#{repoBacking.exportWord}" ajax="false">
+						<p:menuitem value="#{msgs.txt_csv}" icon="fa fa-file-text-o" action="#{repoBacking.exportCsv}" ajax="false" />
+						<p:menuitem value="#{msgs.txt_chart}" icon="fa fa-file-image-o" action="#{repoBacking.exportSvg}" 
+								onclick="setSvgData()" ajax="false" rendered="#{repoBacking.pageStage == 1}" />
+					</p:splitButton>
+					<div class="EmptyBox10" />
+	
+	
+		    		<!-- Entities (Files) or Activities-->
+		    		<h:panelGroup styleClass="ui-fluid" layout="block" rendered="#{repoBacking.pageStage == 0 or repoBacking.pageStage == 1}">
+			    		<p:panelGrid columns="2" columnClasses="ui-grid-col-10,ui-grid-col-2" layout="grid" styleClass="ui-panelgrid-blank">
+							
+							<!-- Entities (Files) -->
+					    	<h:panelGroup layout="block" rendered="#{repoBacking.pageStage == 0}">
+	
+								<!-- Table: Files -->							
+								<ui:include src="_fileList.xhtml">
+									<ui:param name="backing" value="#{repoBacking}" />
+									<ui:param name="files" value="#{repoBacking.files}" />
+								</ui:include>
+									    	
+					    	</h:panelGroup>
+					    	
+					    	<!-- Activities -->
+					    	<h:panelGroup layout="block" rendered="#{repoBacking.pageStage == 1}">
+	
+								<p:tabView id="idTabViewActivities">
+	
+							        <p:tab title="#{msgs.repo_activities_tab_diagram}">
+										<div id="chart" style="width:100%;height:400px;overflow-x:hidden;overflow-y:auto;" />
+							        </p:tab>
+									
+							        <p:tab title="#{msgs.repo_activities_tab_table}">
+							        	
+							    		<p:dataTable id="idTblActivities" widgetVar="varTblActivities" value="#{repoBacking.activities}" var="bean" reflow="true"  
+							    				paginatorTemplate="{CurrentPageReport}  {FirstPageLink} {PreviousPageLink} {PageLinks} {NextPageLink} {LastPageLink} {RowsPerPageDropdown}"
+							    				rowKey="#{bean.model.id}" paginator="true" paginatorPosition="bottom" rowsPerPageTemplate="5,10,15,30,50,100" rows="15" 
+							    				emptyMessage="#{msgs.txt_empty_message}" selectionMode="single" selection="#{repoBacking.selectedActivity}">
+	
+							        		<p:ajax event="rowSelect" listener="#{repoBacking.onActivitiesRowSelect}" update="idPnlActivityFiles" />
+							
+							             	<p:column headerText="#{msgs.tbl_activities_col_name}" sortBy="#{bean.model.name}" 
+							             			filterBy="#{bean.model.name}" filterMatchMode="contains">
+							             		<h:outputText value="#{bean.model.name}" />
+							             	</p:column>
+							             	<p:column headerText="#{msgs.tbl_activities_col_label}" filterBy="#{bean.model.label}" filterMatchMode="contains">
+							             		<h:outputText value="#{bean.model.label}" />
+							             	</p:column>
+							             	<p:column headerText="#{msgs.tbl_activities_col_description}" filterBy="#{bean.model.description}" filterMatchMode="contains">
+							             		<h:outputText value="#{bean.model.description}" />
+							             	</p:column>
+							             	<p:column headerText="#{msgs.tbl_activities_col_note}" filterBy="#{bean.model.note}" filterMatchMode="contains">
+							             		<h:outputText value="#{bean.model.note}" />
+							             	</p:column>
+							             	<p:column headerText="#{msgs.tbl_activities_col_start}" styleClass="TexAlCenter" sortBy="#{bean.model.createdAt}" 
+							             			filterBy="#{bean.model.start}" filterFunction="#{repoBacking.filterByDate}">
+							             		<h:outputText value="#{bean.model.start}">
+							             			<f:convertDateTime pattern="#{msgs.pattern_date_time_m}" />
+							             		</h:outputText>
+							             	</p:column>
+							             	<p:column headerText="#{msgs.tbl_activities_col_end}" styleClass="TexAlCenter" 
+							             			sortBy="#{bean.model.modifiedAt}" filterBy="#{bean.model.end}" filterFunction="#{repoBacking.end}">
+							             		<h:outputText value="#{bean.model.end}">
+							             			<f:convertDateTime pattern="#{msgs.pattern_date_time_m}" />
+							             		</h:outputText>
+							             	</p:column>
+							             	
+							    		</p:dataTable>
+							        </p:tab>
+	
+								</p:tabView>
+								
+							</h:panelGroup>
+			    			
+				    		<!-- Project metadata -->
+				    		<h:panelGroup id="idPnlGrpRight" layout="block">
+				    		
+				    			<!-- Project metadata -->
+				    			<p:panel style="margin:0 0 10px 8px">
+				    				<p:panelGrid columns="1" style="width:100%" styleClass="no-border">
+					    				<h:outputText value="#{msgs.repo_project_meta_projectOwner}" />
+					    				<p:inputText value="#{repoBacking.project.model.owner.fullName}" disabled="true" styleClass="txt-readonly" />
+					    				<h:outputText value="#{msgs.repo_project_meta_priority}" />
+					    				<p:inputText value="#{msgs[repoBacking.project.model.priority]}" disabled="true" styleClass="txt-readonly" />
+					    				<h:outputText value="#{msgs.repo_project_meta_access}" />
+					    				<p:panel style="background-color:#fafafa;min-height:23px;">
+											<ui:repeat var="fullName" value="#{repoBacking.project.access}">
+					    						<h:outputText value="#{fullName}" style="margin:0 5px 0 -8px" />
+					    						<br />
+					    					</ui:repeat>				    				
+									    </p:panel>
+					    				<h:outputText value="#{msgs.repo_project_meta_reviewers}" />
+					    				<p:panel style="background-color:#fafafa;;min-height:23px;">
+					    					<ui:repeat var="fullName" value="#{repoBacking.project.reviewers}">
+					    						<h:outputText value="#{fullName}" style="margin:0 5px 0 -8px" />
+					    						<br />
+					    					</ui:repeat>
+									    </p:panel>
+				    				</p:panelGrid>
+				    			</p:panel>
+				    			
+				    			<!-- Project controls -->
+								<p:panel style="margin:0 0 0 8px">
+									<p:panelGrid columns="1" style="width:100%" styleClass="no-border">
+										<p:commandButton value="#{msgs.repo_action_showAssumptions}" action="#{repoBacking.doShowAssumptions}" ajax="false" />
+										<p:commandButton value="#{msgs.repo_action_editAccess}" action="#{repoBacking.doEditAccess}" ajax="false" />
+										<p:commandButton value="#{msgs.repo_action_editReviewers}" action="#{repoBacking.doEditReviewers}" ajax="false" />
+									</p:panelGrid>
+				    			</p:panel>
+				    			
+				    		</h:panelGroup>
+			    			
+			    		</p:panelGrid>
+			    		
+			    		<h:panelGroup id="idPnlActivityFiles" rendered="#{repoBacking.pageStage == 1}">
+			    		
+				    		<!-- Activity input files -->
+							<div class="EmptyBox20" />
+				    		<h1 class="CardBigTopic">
+				            	<h:outputText value="#{msgs.repo_title_inputFiles}" />
+				            	<h:outputText value=" for " rendered="#{not empty repoBacking.selectedActivity}" />
+				            	<i><h:outputText value="'#{repoBacking.selectedActivity.model.label}'" rendered="#{not empty repoBacking.selectedActivity}" /></i>
+				            </h1>
+				    		<div class="SeparatorFull"></div>
+				    		<div class="EmptyBox10" />
+							
+							<ui:include src="_fileList.xhtml">
+								<ui:param name="backing" value="#{repoBacking}" />
+								<ui:param name="files" value="#{repoBacking.inputFiles}" />
+							</ui:include>
+		
+							<!-- Activity output files -->
+							<div class="EmptyBox20" />
+				    		<h1 class="CardBigTopic">
+				            	<h:outputText value="#{msgs.repo_title_outputFiles}" />
+				            	<h:outputText value=" for " rendered="#{not empty repoBacking.selectedActivity}" />
+				            	<i><h:outputText value="'#{repoBacking.selectedActivity.model.label}'" rendered="#{not empty repoBacking.selectedActivity}" /></i>
+				            </h1>
+				    		<div class="SeparatorFull"></div>
+				    		<div class="EmptyBox10" />
+							
+							<ui:include src="_fileList.xhtml">
+								<ui:param name="backing" value="#{repoBacking}" />
+								<ui:param name="files" value="#{repoBacking.outputFiles}" />
+							</ui:include>
+							
+						</h:panelGroup>
+			    		
+			    	</h:panelGroup>
+	
+	
+		    		<!-- File page -->
+		    		<h:panelGroup styleClass="ui-fluid" layout="block" rendered="#{repoBacking.pageStage == 2}" style="margin: 0 10px 0 10px">
+		    			<p:panelGrid columns="2" columnClasses="ui-grid-col-10,ui-grid-col-2" layout="grid" styleClass="ui-panelgrid-blank">
+		    			
+		    				<!-- Left content -->
+		    				<h:panelGroup>
+		    				
+					        	<h:panelGroup rendered="#{repoBacking.file.hasData}">
+						        	<p:inputTextarea value="#{repoBacking.file.strContent}" rows="35" escape="false" readonly="true" 
+						        			autoResize="false" style="width:100%" rendered="#{not repoBacking.file.isPicture}" />
+						        	<p:graphicImage value="#{repoBacking.file.picData}" rendered="#{repoBacking.file.isPicture}" stream="false" />		
+					        	</h:panelGroup>
+					        	<h:outputText value="#{msgs.repo_file_error_loadFile}" styleClass="Fs18 FontBold Red" rendered="#{not repoBacking.file.hasData}" />
+								
+							</h:panelGroup>
+	
+								<!-- Right content -->
+					    		<h:panelGroup layout="block">
+					    			
+					    			<!-- File metadata -->
+					    			<p:panel id="idPnlStepMetadata" style="margin:0 0 10px 8px">
+					    				<p:panelGrid columns="1" style="width:100%" styleClass="no-border">
+						    				<h:outputText value="#{msgs.repo_file_type}" />
+						    				<p:inputText value="#{msgs[repoBacking.file.model.provType]}" disabled="true" styleClass="txt-readonly" />
+						    				<h:outputText value="#{msgs.repo_file_lastModified}" />
+						    				<p:inputText value="#{repoBacking.file.model.modifiedAt}" disabled="true" styleClass="txt-readonly">
+						    					<f:convertDateTime pattern="#{msgs.pattern_date_time_m}" />
+						    				</p:inputText>
+						    				<!--  
+						    				<h:outputText value="Last modified by" />
+						    				<p:inputText value="#{repoBacking.file.model.lastModifiedBy}" disabled="true" styleClass="txt-readonly" />
+						    				-->
+						    				<h:outputText value="#{msgs.repo_file_qcStatus}" />
+						    				<p:inputText value="#{repoBacking.file.model.passedQc ? msgs.txt_yes : msgs.txt_no}" disabled="true" 
+						    						styleClass="txt-readonly" rendered="#{not empty repoBacking.file.model.passedQc}" />
+						    				<p:inputText disabled="true" styleClass="txt-readonly" rendered="#{empty repoBacking.file.model.passedQc}" />
+					    				</p:panelGrid>
+					    			</p:panel>
+	
+									<!-- File markers -->
+					    			<p:panel style="margin:0 0 10px 8px" rendered="#{repoBacking.file.isModel}">
+					    				<p:panelGrid columns="1" style="width:100%" styleClass="no-border">
+						    				<p:selectBooleanCheckbox value="#{repoBacking.file.model.finalModel}" itemLabel="#{msgs.repo_file_final}">
+						    					<p:ajax process="@this" update="@this idPnlStepMetadata" listener="#{repoBacking.markModel(repoBacking.file.model)}" />
+						    				</p:selectBooleanCheckbox>
+						    				<p:selectBooleanCheckbox value="#{repoBacking.file.model.baseModel}" itemLabel="#{msgs.repo_file_base}">
+						    					<p:ajax process="@this" update="@this idPnlStepMetadata" listener="#{repoBacking.markModel(repoBacking.file.model)}" />
+						    				</p:selectBooleanCheckbox>
+						    				<p:selectBooleanCheckbox value="#{repoBacking.file.model.pivotalModel}" itemLabel="#{msgs.repo_file_pivotal}">
+						    					<p:ajax process="@this" update="@this idPnlStepMetadata" listener="#{repoBacking.markModel(repoBacking.file.model)}" />
+						    				</p:selectBooleanCheckbox>
+					    				</p:panelGrid>
+					    			</p:panel>
+					    							    			
+					    			<!-- File controls -->
+									<p:panel style="margin:0 0 0 8px">
+										<p:panelGrid columns="1" style="width:100%" styleClass="no-border">
+											<p:commandButton value="#{msgs.repo_file_action_auditTrail}" onclick="callAuditTrail(#{repoBacking.idProject}, '#{repoBacking.file.model.id}')" />
+											<p:commandButton action="#{repoBacking.setQcFlag(repoBacking.file.model, true)}" 
+													value="#{msgs.repo_file_action_qcPassed}" update="idPnlStepMetadata" />
+											<p:commandButton action="#{repoBacking.setQcFlag(repoBacking.file.model, false)}" 
+													value="#{msgs.repo_file_action_qcFailed}" styleClass="RedButton" update="idPnlStepMetadata" />
+										</p:panelGrid>
+					    			</p:panel>
+					    		
+					    		</h:panelGroup>			
+					    			    			
+		    			</p:panelGrid>
+		    			
+						<!-- Go back to project view -->
+						<div class="SeparatorFull"></div>
+						<p:commandButton action="#{repoBacking.doProject}" value="#{msgs.txt_back}" 
+								style="width:90px;" styleClass="White" icon="fa fa-arrow-left" />
+		    			
+		    		</h:panelGroup>
+					
+					
+					<!-- Assumptions -->
+		    		<h:panelGroup styleClass="ui-fluid" layout="block"  style="margin: 0 10px 0 10px" rendered="#{repoBacking.pageStage == 5}">
+
+			    		<p:dataTable id="idTblAssumptions" widgetVar="varTblAssumptions" value="#{repoBacking.assumptions}" var="bean" reflow="true"  
+			    				paginatorTemplate="{CurrentPageReport}  {FirstPageLink} {PreviousPageLink} {PageLinks} {NextPageLink} {LastPageLink} {RowsPerPageDropdown}"
+			    				paginator="true" paginatorPosition="bottom" rowsPerPageTemplate="5,10,15,30,50,100" rows="15" emptyMessage="#{msgs.txt_empty_message}">
+
+			             	<p:column headerText="#{msgs.tbl_assumptions_col_type}" sortBy="#{msgs[bean.model.type]}" 
+			             			filterBy="#{msgs[bean.model.type]}" filterMatchMode="contains">
+			             		<h:outputText value="#{msgs[bean.model.type]}" />
+			             	</p:column>
+							<p:column headerText="#{msgs.tbl_assumptions_col_body}" filterBy="#{bean.model.body}" filterMatchMode="contains">
+			             		<h:outputText value="#{bean.model.body}" />
+			             	</p:column>
+							<p:column headerText="#{msgs.tbl_assumptions_col_justification}" filterBy="#{bean.model.justification}" filterMatchMode="contains">
+			             		<h:outputText value="#{bean.model.justification}" />
+			             	</p:column>
+							<p:column headerText="#{msgs.tbl_assumptions_col_established}" sortBy="#{bean.model.established}" 
+									filterBy="#{bean.model.established}" filterMatchMode="contains">
+								<f:facet name="filter">
+									<p:selectOneMenu onchange="PF('varTblAssumptions').filter()">
+					                    <f:converter converterId="javax.faces.Boolean" />
+					                    <f:selectItem itemLabel="#{msgs.txt_all}" itemValue="" />
+					                    <f:selectItem itemLabel="#{msgs.txt_yes}" itemValue="true" />
+					                    <f:selectItem itemLabel="#{msgs.txt_no}" itemValue="false" />
+					                </p:selectOneMenu>				
+					            </f:facet>		    
+			             		<h:outputText value="#{bean.model.established ? msgs.txt_yes : msgs.txt_no}" rendered="#{not empty bean.model.established}" />
+			             	</p:column>
+							<p:column headerText="#{msgs.tbl_assumptions_col_testable}" filterBy="#{bean.model.testable}" filterMatchMode="contains">
+			             		<h:outputText value="#{bean.model.testable}" />
+			             	</p:column>
+							<p:column headerText="#{msgs.tbl_assumptions_col_testApproach}" filterBy="#{bean.model.testApproach}" filterMatchMode="contains">
+			             		<h:outputText value="#{bean.model.testApproach}" />
+			             	</p:column>
+							<p:column headerText="#{msgs.tbl_assumptions_col_testOutcome}" filterBy="#{bean.model.testOutcome}" filterMatchMode="contains">
+			             		<h:outputText value="#{bean.model.testOutcome}" />
+			             	</p:column>
+			             				    				
+			    		</p:dataTable>
+		    				
+						<!-- Go back to project view -->
+						<div class="SeparatorFull"></div>
+						<p:commandButton action="#{repoBacking.doProject}" value="#{msgs.txt_back}" 
+								style="width:90px;" styleClass="White" icon="fa fa-arrow-left" />
+		    				
+		    		</h:panelGroup>
+		    		
+		    		
+		    		<!-- Access or Reviewers page -->
+		    		<h:panelGroup styleClass="ui-fluid" layout="block"  style="margin: 0 10px 0 10px"
+		    				rendered="#{repoBacking.pageStage == 3 or repoBacking.pageStage == 4}">
+					
+						<!-- Picklist -->
+						<p:pickList id="idPickList" value="#{repoBacking.assigments}" var="assigment"
+	               				itemValue="#{assigment}" converter="userConverter" responsive="true">
+	       				
+	       					<f:facet name="sourceCaption">
+	       						<h:outputText value="#{msgs.repo_user_available}" />
+	       					</f:facet>
+	       					<f:facet name="targetCaption">
+	       						<h:outputText value="#{msgs.repo_user_assigned}" />
+	       					</f:facet>
+						
+							<p:column>
+	           					<h:outputText value="#{assigment.fullName}" />
+	       					</p:column>
+	       					                			
+	               		</p:pickList>
+						
+						<!-- Go back to project view or save -->
+						<div class="SeparatorFull"></div>
+						<p:commandButton action="#{repoBacking.doProject}" value="#{msgs.txt_back}" 
+								style="width:90px;margin-right:3px;" styleClass="White" icon="fa fa-arrow-left" />
+						<p:commandButton action="#{repoBacking.doSaveAccess}" value="#{msgs.txt_save}" 
+								style="width:90px;" styleClass="White" icon="fa fa-save" />
+					
+					</h:panelGroup>
+					
+		         </div>
+			</div>
+			
+		</div>
+		
+		
+		<h:panelGroup rendered="#{repoBacking.pageStage == 1}">
+			<script type="text/javascript">
+			//<![CDATA[
+				var dataset = #{repoBacking.jsonActivities};
+
+				function onClickCircle(d) {
+					if ("activity" === d.type.toLowerCase()) {
+						activitySelected([{name:'activityName', value:d.name}]);
+					}
+				}
+			//]]>
+			</script>
+			<h:outputScript name="js/d3jsPage.js" library="bwf" />
+		</h:panelGroup>
+				
+    </ui:define>
+
+</ui:composition>

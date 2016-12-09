@@ -1,0 +1,59 @@
+<ui:composition xmlns="http://www.w3.org/1999/xhtml"
+    			xmlns:f="http://java.sun.com/jsf/core"
+    			xmlns:h="http://java.sun.com/jsf/html"
+    			xmlns:ui="http://java.sun.com/jsf/facelets"
+    			xmlns:p="http://primefaces.org/ui"
+    			xmlns:po="http://primefaces.org/olympos">
+
+	<div class="box-footer" style="margin-top:20px;">
+		<div class="Container100" id="layout-footer">
+	        <div class="Card">
+	
+	            <!-- FOOTER  -->
+	            <div class="Container100 NoIndent" style="border-bottom:dashed 1px #ccc;" id="footerlinks">
+	                <!--<h:graphicImage name="images/logo-dark.svg" styleClass="Fleft" library="olympos-layout" style="height:20px;"/>-->
+	                <label class="Fs18"><h:outputText value="#{msgs.footer_title}" /></label>
+	
+	                <div class="DispInlBlock Fright">
+	                	<a href="https://twitter.com/ddmore_IMI" target="_blank" class="Leaden Fs22"><i class="fa fa-twitter-square"></i></a>
+	                	<a href="https://www.linkedin.com/groups/5169820/profile" target="_blank" class="Leaden Fs22"><i class="fa fa-linkedin-square"></i></a>
+	                	<!--  
+	                    <a href="#layout-footer" class="Leaden Fs22"><i class="fa fa-facebook-square"></i></a>
+	                    <a href="#layout-footer" class="Leaden Fs22"><i class="fa fa-google-plus-square"></i></a>
+	                    -->
+	                </div>
+	
+	                <div class="EmptyBox10"></div>
+	            </div>
+	
+	            <div class="EmptyBox10"></div>
+	
+	            <div class="Container50 NoIndent Responsive100">
+	                <div class="Container100 NoIndent">
+	                    <a href="http://www.ddmore.eu/" target="_blank" class="DispInlBlock FontLatoRegular Blue Fs12 Fleft HoverEffect">
+	                    	<h:outputText value="#{msgs.footer_home} " />
+	                    </a>
+	                    <span class="Fleft Black Fs12" style="padding:0px 5px;">|</span>
+	                    <a href="http://www.ddmore.eu/content/privacy-policy" target="_blank" class="DispInlBlock FontLatoRegular Blue Fs12 Fleft HoverEffect">
+	                    	<h:outputText value="#{msgs.footer_privacyPolicy}" />
+	                    </a>
+	                    <span class="Fleft Black Fs12" style="padding:0px 5px;">|</span>
+	                    <a href="http://www.ddmore.eu/content/disclaimer" target="_blank" class="DispInlBlock FontLatoRegular Blue Fs12 Fleft HoverEffect">
+	                    	<h:outputText value="#{msgs.footer_disclaimer}" />
+	                    </a>
+	                </div>
+	            </div>
+	
+	            <div class="Container50 NoIndent Responsive100 Fright">
+	                <span class="DispBlock FontLatoRegular Black Fs12 HoverEffect TexAlRight FloatNoneOnMobile"><h:outputText value=" #{msgs.footer_appName}" /></span>
+	                <span class="DispBlock FontLatoRegular Black Fs12 HoverEffect TexAlRight"> 
+	                	<i class="fa fa-phone"></i> <h:outputText value=" " /><h:outputText value=" #{msgs.footer_phoneNumber}" /> <br/> 
+	                	<a href="#{msgs.footer_contactPage}" target="_blank"><h:outputText value="#{msgs.footer_contactPage}" /></a>
+	                </span>
+	            </div>
+	
+	        </div>
+	    </div>
+	</div>
+	        
+</ui:composition>

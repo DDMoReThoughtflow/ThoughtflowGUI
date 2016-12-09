@@ -1,0 +1,49 @@
+<ui:composition xmlns="http://www.w3.org/1999/xhtml"
+				xmlns:h="http://java.sun.com/jsf/html"
+				xmlns:f="http://java.sun.com/jsf/core"
+				xmlns:ui="http://java.sun.com/jsf/facelets"
+				xmlns:p="http://primefaces.org/ui"
+				xmlns:pe="http://primefaces.org/ui/extensions"
+				xmlns:o="http://omnifaces.org/ui"
+				xmlns:of="http://omnifaces.org/functions"
+				xmlns:bwf="http://java.sun.com/jsf/composite/components"
+				template="/templates/template.default.xhtml">
+
+	<ui:define name="content">
+
+		<bwf:title value="#{msgs.v_createProject_title}" />
+
+		<div class="box content-box">
+		
+			<div class="Container100">
+				<div class="Card">
+	
+					<p:messages id="idMessagesCreateProject" showSummary="false"
+						showDetail="true" showIcon="true" closable="true" autoUpdate="true"
+						escape="false" for="messagesCreateProject" />
+	
+					<h:panelGrid columns="2" columnClasses="grid-left,grid-right">
+						<bwf:label value="#{msgs.v_createProject_projectName}" required="true" />
+						<p:inputText value="#{createProjectBacking.project.model.name}" styleClass="createProject-txt" />
+						<bwf:label value="#{msgs.v_createProject_projectPriority}" required="true" />
+						<p:selectOneMenu
+							value="#{createProjectBacking.project.model.priority}">
+							<f:selectItems value="#{projectPriorityItems.selectItems}" />
+						</p:selectOneMenu>
+						<bwf:label value="#{msgs.v_createProject_gitUrl}" required="true" />
+						<p:inputText value="#{createProjectBacking.project.model.gitUrl}" styleClass="createProject-txt-giturl" />
+						<h:outputText />
+						<p:selectBooleanCheckbox value="#{createProjectBacking.newReppository}" itemLabel="#{msgs.v_createProject_createNew}" />
+					</h:panelGrid>
+	
+					<div class="SeparatorFull"></div>
+					<p:commandButton id="idBtSave" value="#{msgs.txt_save}" action="#{createProjectBacking.save}" styleClass="White" icon="fa fa-save" />
+	
+				</div>
+			</div>
+			
+		</div>
+
+	</ui:define>
+
+</ui:composition>
