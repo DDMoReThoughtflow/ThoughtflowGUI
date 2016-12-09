@@ -1,0 +1,239 @@
+<project xmlns="http://maven.apache.org/POM/4.0.0" 
+	 	 xmlns:xsi="http://www.w3.org/2001/XMLSchema-instance"
+	   	 xsi:schemaLocation="http://maven.apache.org/POM/4.0.0 http://maven.apache.org/maven-v4_0_0.xsd">
+
+	<modelVersion>4.0.0</modelVersion>
+
+	<!-- Inherit values from parent pom -->
+	<parent>
+		<groupId>eu.ddmore.workflow</groupId>
+		<artifactId>DDMoRe-BWF-Main</artifactId>
+		<version>1.0.0</version>
+	</parent>	
+		
+	<artifactId>DDMoRe-BWF-Rest</artifactId>
+	<packaging>${packaging.type}</packaging>
+	<version>1.0.1</version>
+
+	<properties>
+   		<final.name>bwf-rest</final.name>
+    </properties>
+	
+	<dependencies>
+		<!-- Project -->
+		<dependency>
+			<groupId>eu.ddmore.workflow</groupId>
+			<artifactId>DDMoRe-BWF-Client</artifactId>
+		</dependency>	
+		<dependency>
+			<groupId>eu.ddmore.workflow</groupId>
+			<artifactId>DDMoRe-BWF-Core</artifactId>
+		</dependency>
+		<!-- Apache Jakarta commons -->
+		<dependency>
+			<groupId>org.apache.commons</groupId>
+			<artifactId>commons-lang3</artifactId>
+		</dependency>
+		<dependency>
+			<groupId>commons-io</groupId>
+			<artifactId>commons-io</artifactId>
+		</dependency>	
+		<dependency>
+		    <groupId>commons-dbcp</groupId>
+		    <artifactId>commons-dbcp</artifactId>
+		</dependency>
+		<!-- Spring -->
+		<dependency>
+			<groupId>org.springframework</groupId>
+			<artifactId>spring-context</artifactId>
+		</dependency>
+		<dependency>
+			<groupId>org.springframework</groupId>
+			<artifactId>spring-context-support</artifactId>
+		</dependency>
+		<dependency>
+			<groupId>org.springframework</groupId>
+			<artifactId>spring-core</artifactId>
+		</dependency>		
+		<dependency>
+			<groupId>org.springframework</groupId>
+			<artifactId>spring-jdbc</artifactId>
+		</dependency>
+		<dependency>
+			<groupId>org.springframework</groupId>
+			<artifactId>spring-tx</artifactId>
+		</dependency>			
+		<dependency>
+			<groupId>org.springframework</groupId>
+			<artifactId>spring-orm</artifactId>
+		</dependency>		
+		<dependency>
+			<groupId>org.springframework</groupId>
+			<artifactId>spring-test</artifactId>
+		</dependency>		
+		<!-- HSQLDB -->
+		<dependency>
+		    <groupId>org.hsqldb</groupId>
+		    <artifactId>hsqldb</artifactId>
+		</dependency>
+		<!-- REST (client) -->
+		<dependency>
+			<groupId>org.glassfish.jersey.core</groupId>
+			<artifactId>jersey-client</artifactId>
+		</dependency>
+		<!-- REST -->
+		<dependency>
+			<groupId>org.glassfish.jersey.core</groupId>
+			<artifactId>jersey-common</artifactId>
+		</dependency>
+		<dependency>
+			<groupId>org.glassfish.jersey.media</groupId>
+			<artifactId>jersey-media-multipart</artifactId>
+		</dependency>
+		<dependency>
+		    <groupId>org.glassfish.jersey.media</groupId>
+		    <artifactId>jersey-media-jaxb</artifactId>
+		</dependency>	
+		<dependency>
+		    <groupId>org.glassfish.jersey.media</groupId>
+		    <artifactId>jersey-media-json-jackson</artifactId>
+		</dependency>
+		<!-- AspectJ -->
+		<dependency>
+			<groupId>org.aspectj</groupId>
+			<artifactId>aspectjrt</artifactId>
+		</dependency>
+		<dependency>
+			<groupId>org.aspectj</groupId>
+			<artifactId>aspectjweaver</artifactId>
+		</dependency>
+		<!-- Logging -->
+		<dependency>
+			<groupId>org.slf4j</groupId>
+			<artifactId>slf4j-api</artifactId>
+		</dependency>			
+		<dependency>
+			<groupId>org.slf4j</groupId>
+			<artifactId>slf4j-log4j12</artifactId>
+		</dependency>	
+		<dependency>
+			<groupId>log4j</groupId>
+			<artifactId>log4j</artifactId>
+		</dependency>
+		<!-- Testing -->
+		<dependency>
+			<groupId>junit</groupId>
+			<artifactId>junit</artifactId>
+		</dependency>	
+	</dependencies>
+
+	<profiles>
+	
+		<!-- DEV (JAR) -->
+		<profile>
+			<id>dev</id>
+			<activation>
+				<activeByDefault>true</activeByDefault>
+			</activation>
+			<properties>
+            	<packaging.type>jar</packaging.type>
+            </properties>
+            <dependencies>
+				<!-- REST (server for jar) -->
+				<dependency>
+			    	<groupId>org.glassfish.jersey.containers</groupId>
+	    			<artifactId>jersey-container-grizzly2-http</artifactId>
+				</dependency>
+            </dependencies>
+		</profile>
+		
+		<!-- PROD (WAR) -->
+		<profile>
+			<id>package</id>
+			<activation>
+				<activeByDefault>false</activeByDefault>
+			</activation>
+			<properties>
+            	<packaging.type>war</packaging.type>
+            </properties>
+            <dependencies>
+				<!-- REST (server for jar) 									   -->
+				<!-- Just to compile 'eu.ddmore.workflow.bwf.rest.Application' -->
+				<dependency>
+			    	<groupId>org.glassfish.jersey.containers</groupId>
+	    			<artifactId>jersey-container-grizzly2-http</artifactId>
+				</dependency>
+				<!-- REST (server for war) -->
+				<dependency>
+				    <groupId>org.glassfish.jersey.containers</groupId>
+				    <artifactId>jersey-container-servlet-core</artifactId>
+				</dependency>
+				<dependency>
+					<groupId>org.springframework</groupId>
+					<artifactId>spring-web</artifactId>
+				</dependency>
+            </dependencies>
+			<build>
+				<resources>
+					<resource>
+						<directory>src/main/resources</directory>
+						<includes>
+							<include>**/applicationContext.xml</include>
+						</includes>
+						<excludes>
+							<exclude>**/bwf-rest.properties</exclude>
+							<exclude>**/data.sql</exclude>
+							<exclude>**/schema.sql</exclude>
+							<exclude>**/log4j.xml</exclude>
+		                    <exclude>**/rebel.xml</exclude>
+						</excludes>
+						<filtering>true</filtering>
+					</resource>
+					<resource>
+						<directory>tomcat</directory>
+						<includes>
+							<include>**/log4j.xml</include>
+						</includes>
+						<filtering>true</filtering>
+					</resource>
+				</resources>
+				<plugins>
+					<!-- maven-eclipse-plugin -->
+					<plugin>
+						<groupId>org.apache.maven.plugins</groupId>
+						<artifactId>maven-eclipse-plugin</artifactId>
+						<version>${maven-eclipse-plugin.version}</version>
+						<configuration>
+							<downloadSources>true</downloadSources>
+							<downloadJavadocs>true</downloadJavadocs>
+							<wtpversion>2.0</wtpversion>
+							<wtpContextName>${final.name}</wtpContextName>
+						</configuration>
+					</plugin>		
+					<!-- maven-war-plugin -->
+					<plugin>
+						<groupId>org.apache.maven.plugins</groupId>
+						<artifactId>maven-war-plugin</artifactId>
+						<version>${maven-war-plugin.version}</version>
+						<configuration>
+							<webResources>
+								<resource>
+									<filtering>true</filtering>
+									<directory>src/main/webapp</directory>
+									<includes>
+										<include>**/web.xml</include>
+									</includes>
+								</resource>
+							</webResources>
+							<warSourceDirectory>src/main/webapp</warSourceDirectory>
+							<webXml>src/main/webapp/WEB-INF/web.xml</webXml>
+						</configuration>
+					</plugin>
+				</plugins>
+				<finalName>${final.name}</finalName>
+			</build>            
+		</profile>		
+		
+	</profiles>
+
+</project>
