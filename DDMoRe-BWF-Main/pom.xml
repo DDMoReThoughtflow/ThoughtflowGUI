@@ -1,0 +1,597 @@
+<project xmlns="http://maven.apache.org/POM/4.0.0" 
+		 xmlns:xsi="http://www.w3.org/2001/XMLSchema-instance"
+		 xsi:schemaLocation="http://maven.apache.org/POM/4.0.0 http://maven.apache.org/maven-v4_0_0.xsd">
+
+	<modelVersion>4.0.0</modelVersion>
+
+	<groupId>eu.ddmore.workflow</groupId>
+	<artifactId>DDMoRe-BWF-Main</artifactId>
+	<packaging>pom</packaging>
+	<version>1.0.0</version> <!-- Keep this version always on '1.0.0' because of frequent changing -->
+
+	<name>DDMoRe-BWF-Main</name>
+	<description>
+		DDMoRe Browser Work Flow - Tracking and reporting the provenance of activities, 
+		entities and decisions making up a pharmacometric data analysis project, with a 
+		view to facilitating updates of aspects of the analysis, or the entire analysis, 
+		after changes to inputs, and to facilitating reporting.
+	</description>
+	<url>http://www.ddmore.eu/</url>
+	<inceptionYear>2016</inceptionYear>
+	
+	<developers>
+	    <developer>
+	    	<id>cflandorfer</id>
+	      	<name>Christian Flandorfer</name>
+	      	<organization>scinteco</organization>
+			<organizationUrl>http://www.scinteco.com/</organizationUrl>
+	    	<roles>
+	    		<role>analyst</role>
+	        	<role>architect</role>
+	        	<role>developer</role>
+	      	</roles>
+	      	<timezone>Europe/Vienna</timezone>
+		</developer>
+	    <developer>
+	    	<id>cstocker</id>
+	      	<name>Christoph Stocker</name>
+	      	<organization>scinteco</organization>
+			<organizationUrl>http://www.scinteco.com/</organizationUrl>
+	    	<roles>
+	    		<role>analyst</role>
+	        	<role>architect</role>
+	        	<role>developer</role>
+	      	</roles>
+	      	<timezone>Europe/Vienna</timezone>
+		</developer>
+  	</developers>
+
+  	<repositories>
+	    <repository>
+	    	<id>mvn.prov.toolbox</id>
+	      	<name>maven repository for PROV toolbox</name>
+	      	<url>http://openprovenance.org/java/maven-releases/</url>
+	    </repository>
+		<repository>
+	    	<id>mvn.prov.toolbox.snapshots</id>
+	      	<name>maven snapshot repository for PROV toolbox</name>
+	      	<url>http://openprovenance.org/java/maven-snapshots/</url>
+	    </repository>
+		<repository>  
+		    <id>prime-repo</id>  
+		    <name>PrimeFaces Maven Repository</name>  
+		    <url>http://repository.primefaces.org</url>  
+		    <layout>default</layout>  
+		</repository> 
+  	</repositories>
+  
+	<prerequisites>
+    	<maven>${mavenVersion}</maven>
+  	</prerequisites>
+  	
+	<properties>
+		<!-- Common properties -->
+	    <compiler.source>1.8</compiler.source>
+	    <compiler.target>1.8</compiler.target>
+		<skip.tests>true</skip.tests>
+		<project.build.sourceEncoding>UTF-8</project.build.sourceEncoding>
+		<mavenVersion>3.2.1</mavenVersion>
+		
+		<!-- Dependency versions -->
+		<spring.version>4.2.4.RELEASE</spring.version>
+		<spring.security.version>3.2.9.RELEASE</spring.security.version>
+		<jsf.version>2.2.13</jsf.version>
+		<primefaces.version>6.0</primefaces.version>
+		<primefaces-theme.version>1.0.10</primefaces-theme.version>
+		<primefaces-extensions.version>3.2.0</primefaces-extensions.version>
+		
+		<!-- Plugin versions -->
+		<maven-compiler-plugin.version>3.5.1</maven-compiler-plugin.version>
+		<maven-jar-plugin.version>2.6</maven-jar-plugin.version>
+		<maven-war-plugin.version>2.6</maven-war-plugin.version>
+		<maven-eclipse-plugin.version>2.10</maven-eclipse-plugin.version>
+		<maven-resources-plugin.version>2.7</maven-resources-plugin.version>
+		<maven-source-plugin.version>3.0.0</maven-source-plugin.version>
+		<maven-javadoc-plugin.version>2.10.3</maven-javadoc-plugin.version>
+		<maven-surefire-plugin.version>2.19.1</maven-surefire-plugin.version>
+		<maven-assembly-plugin.version>2.6</maven-assembly-plugin.version>
+		<yuicompressor-maven-plugin.version>1.5.1</yuicompressor-maven-plugin.version>
+	</properties>
+	
+	<dependencyManagement>
+		<dependencies>
+			<!-- Project -->
+			<dependency>
+				<groupId>eu.ddmore.workflow</groupId>
+				<artifactId>DDMoRe-BWF-Client</artifactId>
+				<version>1.0.0</version>
+				<type>jar</type>
+			</dependency>
+			<dependency>
+				<groupId>eu.ddmore.workflow</groupId>
+				<artifactId>DDMoRe-BWF-Core</artifactId>
+				<version>1.0.0</version>
+				<type>jar</type>
+			</dependency>
+			<dependency>
+				<groupId>eu.ddmore.workflow</groupId>
+				<artifactId>DDMoRe-BWF-Rest</artifactId>
+				<version>1.0.0</version>
+				<type>war</type>
+			</dependency>
+			<!-- Apache Jakarta commons -->
+			<dependency>
+				<groupId>org.apache.commons</groupId>
+				<artifactId>commons-lang3</artifactId>
+				<version>3.4</version>
+				<type>jar</type>
+			</dependency>
+			<dependency>
+				<groupId>commons-io</groupId>
+				<artifactId>commons-io</artifactId>
+				<version>2.4</version>
+				<type>jar</type>
+			</dependency>	
+			<dependency>
+				<groupId>commons-fileupload</groupId>
+				<artifactId>commons-fileupload</artifactId>
+				<version>1.3.1</version>
+				<type>jar</type>
+			</dependency>
+			<dependency>
+			    <groupId>commons-dbcp</groupId>
+			    <artifactId>commons-dbcp</artifactId>
+			    <version>1.4</version>
+			    <type>jar</type>
+			</dependency>
+			<dependency>
+				<groupId>org.apache.commons</groupId>
+				<artifactId>commons-dbcp2</artifactId>
+				<version>2.1.1</version>
+				<type>jar</type>
+			</dependency>
+			<dependency>
+			    <groupId>org.apache.commons</groupId>
+			    <artifactId>commons-csv</artifactId>
+				<version>1.4</version>
+				<type>jar</type>
+			</dependency>
+			<dependency>
+				<groupId>org.apache.poi</groupId>
+				<artifactId>poi</artifactId>
+				<version>3.14</version>
+				<type>jar</type>
+			</dependency>
+			<dependency>
+				<groupId>org.apache.poi</groupId>
+				<artifactId>poi-ooxml</artifactId>
+				<version>3.14</version>
+				<type>jar</type>
+			</dependency>		
+			<!-- Spring -->
+			<dependency>
+				<groupId>org.springframework</groupId>
+				<artifactId>spring-core</artifactId>
+				<version>${spring.version}</version>
+				<type>jar</type>
+			</dependency>
+			<dependency>
+				<groupId>org.springframework</groupId>
+				<artifactId>spring-web</artifactId>
+				<version>${spring.version}</version>
+				<type>jar</type>
+			</dependency>
+			<dependency>
+				<groupId>org.springframework</groupId>
+				<artifactId>spring-context</artifactId>
+				<version>${spring.version}</version>
+				<type>jar</type>
+			</dependency>
+			<dependency>
+				<groupId>org.springframework</groupId>
+				<artifactId>spring-context-support</artifactId>
+				<version>${spring.version}</version>
+				<type>jar</type>
+			</dependency>
+			<dependency>
+				<groupId>org.springframework</groupId>
+				<artifactId>spring-expression</artifactId>
+				<version>${spring.version}</version>
+				<type>jar</type>
+			</dependency>
+			<dependency>
+				<groupId>org.springframework</groupId>
+				<artifactId>spring-jdbc</artifactId>
+				<version>${spring.version}</version>
+				<type>jar</type>
+			</dependency>
+			<dependency>
+				<groupId>org.springframework</groupId>
+				<artifactId>spring-tx</artifactId>
+				<version>${spring.version}</version>
+				<type>jar</type>
+			</dependency>
+			<dependency>
+				<groupId>org.springframework</groupId>
+				<artifactId>spring-orm</artifactId>
+				<version>${spring.version}</version>
+				<type>jar</type>
+			</dependency>
+			<dependency>
+				<groupId>org.springframework</groupId>
+				<artifactId>spring-test</artifactId>
+				<version>${spring.version}</version>
+				<type>jar</type>
+				<scope>test</scope>
+			</dependency>
+			<!-- Spring Security -->
+			<dependency>
+				<groupId>org.springframework.security</groupId>
+				<artifactId>spring-security-core</artifactId>
+				<version>${spring.security.version}</version>
+				<type>jar</type>
+			</dependency>
+			<dependency>
+				<groupId>org.springframework.security</groupId>
+				<artifactId>spring-security-web</artifactId>
+				<version>${spring.security.version}</version>
+				<type>jar</type>
+			</dependency>
+			<dependency>
+				<groupId>org.springframework.security</groupId>
+				<artifactId>spring-security-config</artifactId>
+				<version>${spring.security.version}</version>
+				<type>jar</type>
+			</dependency>
+			<dependency>
+				<groupId>org.springframework.security</groupId>
+				<artifactId>spring-security-taglibs</artifactId>
+				<version>${spring.security.version}</version>
+				<type>jar</type>
+			</dependency>
+			<dependency>
+				<groupId>org.springframework.security</groupId>
+				<artifactId>spring-security-ldap</artifactId>
+				<version>${spring.security.version}</version>
+				<type>jar</type>
+			</dependency>			
+			<!-- prettyfaces -->
+			<dependency>
+		    	<groupId>org.ocpsoft.rewrite</groupId>
+			    <artifactId>rewrite-servlet</artifactId>
+			    <version>2.0.12.Final</version>
+			    <type>jar</type>
+			</dependency>
+			<dependency>
+			    <groupId>org.ocpsoft.rewrite</groupId>
+			    <artifactId>rewrite-config-prettyfaces</artifactId>
+			    <version>2.0.12.Final</version>
+			    <type>jar</type>
+			</dependency>
+			<!-- OmniFaces -->
+			<dependency>
+				<groupId>org.omnifaces</groupId>
+				<artifactId>omnifaces</artifactId>
+				<version>1.12.1</version>
+				<!--<version>2.2</version>-->
+				<type>jar</type>
+			</dependency>
+			<!-- Java Servlet -->
+			<dependency>
+				<groupId>javax.servlet</groupId>
+				<artifactId>jstl</artifactId>
+				<version>1.2</version>
+				<type>jar</type>
+			</dependency>
+			<dependency>
+				<groupId>javax.servlet</groupId>
+				<artifactId>servlet-api</artifactId>
+				<version>3.0-alpha-1</version>
+				<type>jar</type>
+				<scope>provided</scope>
+			</dependency>
+			<dependency>
+			    <groupId>javax.servlet</groupId>
+			    <artifactId>javax.servlet-api</artifactId>
+			    <version>3.1.0</version>
+			    <type>jar</type>
+			    <scope>provided</scope>
+			</dependency>
+			<!-- JSF 2.x -->
+			<dependency>
+				<groupId>com.sun.faces</groupId>
+				<artifactId>jsf-api</artifactId>
+				<version>${jsf.version}</version>
+				<type>jar</type>
+			</dependency>
+			<dependency>
+				<groupId>com.sun.faces</groupId>
+				<artifactId>jsf-impl</artifactId>
+				<version>${jsf.version}</version>
+				<type>jar</type>
+			</dependency>
+			<!-- Primefaces JSF Component Suite -->
+			<dependency>
+				<groupId>org.primefaces</groupId>
+				<artifactId>primefaces</artifactId>
+				<version>${primefaces.version}</version>
+				<type>jar</type>
+			</dependency>
+			<dependency>
+			    <groupId>org.primefaces.themes</groupId>
+			    <artifactId>all-themes</artifactId>
+	    		<version>${primefaces-theme.version}</version>
+	    		<type>jar</type>
+			</dependency>			
+			<dependency>
+				<groupId>org.primefaces.extensions</groupId>
+				<artifactId>primefaces-extensions</artifactId>
+				<version>${primefaces-extensions.version}</version>
+			    <type>jar</type>  
+			</dependency>
+			<!-- HSQLDB -->
+			<dependency>
+			    <groupId>org.hsqldb</groupId>
+			    <artifactId>hsqldb</artifactId>
+			    <version>2.3.4</version>
+			    <type>jar</type>
+			</dependency>
+			<!-- EL 2 -->
+			<dependency>
+				<groupId>javax.el</groupId>
+				<artifactId>el-api</artifactId>
+				<version>2.2</version>
+				<type>jar</type>
+				<scope>provided</scope>
+			</dependency>
+			<!-- JGIT -->
+			<dependency>
+			    <groupId>org.eclipse.jgit</groupId>
+			    <artifactId>org.eclipse.jgit</artifactId>
+			    <version>4.4.0.201606070830-r</version>
+			    <type>jar</type>
+			</dependency>
+			<!-- PROV toolbox -->
+   			<dependency>
+      			<groupId>org.openprovenance.prov</groupId>
+      			<artifactId>prov-model</artifactId>
+      			<version>0.7.0</version>
+      			<type>jar</type>
+    		</dependency>
+    		<dependency>
+      			<groupId>org.openprovenance.prov</groupId>
+      			<artifactId>prov-interop</artifactId>
+      			<version>0.7.0</version>
+      			<type>jar</type>
+    		</dependency>
+    		<!-- Batik for export SVG to image -->
+			<dependency>
+			    <groupId>org.apache.xmlgraphics</groupId>
+			    <artifactId>batik-transcoder</artifactId>
+			    <version>1.7</version>
+			    <type>jar</type>
+			</dependency>
+				<dependency>
+				<groupId>org.apache.xmlgraphics</groupId>
+				<artifactId>batik-codec</artifactId>
+				<version>1.7</version>
+				<type>jar</type>
+			</dependency>
+			<!-- REST (client) -->
+			<dependency>
+				<groupId>org.glassfish.jersey.core</groupId>
+				<artifactId>jersey-client</artifactId>
+				<version>2.23.2</version>
+				<type>jar</type>
+			</dependency>
+			<!-- REST (server for jar) -->
+			<dependency>
+		    	<groupId>org.glassfish.jersey.containers</groupId>
+    			<artifactId>jersey-container-grizzly2-http</artifactId>
+    			<version>2.23.2</version>
+    			<type>jar</type>
+			</dependency>
+			<!-- REST (server for war) -->
+			<dependency>
+			    <groupId>org.glassfish.jersey.containers</groupId>
+			    <artifactId>jersey-container-servlet-core</artifactId>
+			    <version>2.23.2</version>
+			    <type>jar</type>
+			</dependency>
+			<!-- REST -->
+			<dependency>
+				<groupId>org.glassfish.jersey.core</groupId>
+				<artifactId>jersey-common</artifactId>
+				<version>2.23.2</version>
+				<type>jar</type>
+			</dependency>
+			<dependency>
+				<groupId>org.glassfish.jersey.core</groupId>
+				<artifactId>jersey-server</artifactId>
+				<version>2.23.2</version>
+				<type>jar</type>
+			</dependency>
+			<dependency>
+				<groupId>org.glassfish.jersey.media</groupId>
+				<artifactId>jersey-media-multipart</artifactId>
+				<version>2.23.2</version>
+				<type>jar</type>
+			</dependency>
+			<dependency>
+			    <groupId>org.glassfish.jersey.media</groupId>
+			    <artifactId>jersey-media-jaxb</artifactId>
+			   	<version>2.23.2</version>
+				<type>jar</type>
+			</dependency>	
+			<dependency>
+			    <groupId>org.glassfish.jersey.media</groupId>
+			    <artifactId>jersey-media-json-jackson</artifactId>
+			    <version>2.23.2</version>
+			    <type>jar</type>
+			</dependency>		
+			<!-- AspectJ -->
+			<dependency>
+				<groupId>org.aspectj</groupId>
+				<artifactId>aspectjrt</artifactId>
+				<version>1.8.7</version>
+				<type>jar</type>
+			</dependency>
+			<dependency>
+				<groupId>org.aspectj</groupId>
+				<artifactId>aspectjweaver</artifactId>
+				<version>1.8.7</version>
+				<type>jar</type>
+			</dependency>
+			<!-- Logging -->
+			<dependency>
+				<groupId>org.slf4j</groupId>
+				<artifactId>slf4j-api</artifactId>
+				<version>1.7.12</version>
+				<type>jar</type>
+			</dependency>			
+			<dependency>
+				<groupId>org.slf4j</groupId>
+				<artifactId>slf4j-log4j12</artifactId>
+				<version>1.7.12</version>
+				<type>jar</type>
+			</dependency>	
+			<dependency>
+				<groupId>log4j</groupId>
+				<artifactId>log4j</artifactId>
+				<version>1.2.17</version>
+				<type>jar</type>
+			</dependency>
+			<!-- Testing -->
+			<dependency>
+				<groupId>junit</groupId>
+				<artifactId>junit</artifactId>
+				<version>4.12</version>
+				<type>jar</type>
+				<scope>test</scope>
+			</dependency>	
+		</dependencies>
+	</dependencyManagement>
+
+	<build>
+		<plugins>
+			<!-- maven-compiler-plugin -->
+			<plugin>
+				<groupId>org.apache.maven.plugins</groupId>
+				<artifactId>maven-compiler-plugin</artifactId>
+				<version>${maven-compiler-plugin.version}</version>
+				<configuration>
+					<source>${compiler.source}</source>
+					<target>${compiler.target}</target>
+				</configuration>
+			</plugin>
+			<!-- maven-jar-plugin -->
+			<plugin>
+				<groupId>org.apache.maven.plugins</groupId>
+				<artifactId>maven-jar-plugin</artifactId>
+				<version>${maven-jar-plugin.version}</version>
+				<configuration>
+					<excludes>
+						<exclude>**/log4j.xml</exclude>
+						<exclude>**/*.cfg</exclude>
+						<exclude>**/*.properties</exclude>
+						<exclude>**/*.txt</exclude>
+					</excludes>
+				</configuration>
+			</plugin>			
+			<!-- maven-eclipse-plugin -->
+			<plugin>
+				<groupId>org.apache.maven.plugins</groupId>
+				<artifactId>maven-eclipse-plugin</artifactId>
+				<version>${maven-eclipse-plugin.version}</version>
+				<configuration>
+					<downloadSources>true</downloadSources>
+					<downloadJavadocs>true</downloadJavadocs>
+					<wtpversion>2.0</wtpversion>
+				</configuration>
+			</plugin>		
+			<!-- maven-resources-plugin -->
+			<plugin>
+				<groupId>org.apache.maven.plugins</groupId>
+				<artifactId>maven-resources-plugin</artifactId>
+				<version>${maven-resources-plugin.version}</version>
+				<configuration>
+					<encoding>UTF-8</encoding>
+				</configuration>
+			</plugin>
+			<!-- maven-source-plugin -->
+			<plugin>
+				<groupId>org.apache.maven.plugins</groupId>
+				<artifactId>maven-source-plugin</artifactId>
+				<version>${maven-source-plugin.version}</version>
+				<executions>
+					<execution>
+						<id>attach-sources</id>
+						<phase>verify</phase>
+						<goals>
+							<goal>jar-no-fork</goal>
+						</goals>
+					</execution>
+				</executions>
+			</plugin>
+			<!-- maven-javadoc-plugin -->
+			<plugin>
+				<groupId>org.apache.maven.plugins</groupId>
+				<artifactId>maven-javadoc-plugin</artifactId>
+				<version>${maven-javadoc-plugin.version}</version>
+				<configuration>
+					<links>
+						<link>http://docs.oracle.com/javase/7/docs/api/</link>
+					</links>
+					<show>public</show>
+					<!--<bottom><![CDATA[Copyright scinteco gmbh]]></bottom>-->
+					<sourcepath>${basedir}/src/main/java/eu/ddmore/workflow/bwf</sourcepath>
+				</configuration>
+			</plugin>
+			<!-- maven-surefire-plugin -->
+			<plugin>
+				<groupId>org.apache.maven.plugins</groupId>
+				<artifactId>maven-surefire-plugin</artifactId>
+				<version>${maven-surefire-plugin.version}</version>
+				<configuration>
+					<skip>${skip.tests}</skip>
+				</configuration>
+			</plugin>		
+		</plugins>
+	</build>
+
+	<profiles>
+		
+		<!-- DEV -->
+		<profile>
+			<id>dev</id>
+			<activation>
+				<activeByDefault>false</activeByDefault>
+			</activation>
+			<modules>
+				<module>../DDMoRe-BWF-Client</module>
+				<module>../DDMoRe-BWF-Core</module>
+				<module>../DDMoRe-BWF-Rest</module>
+				<module>../DDMoRe-WorkflowServer-Rest</module>
+				<module>../DDMoRe-BWF-Web</module>
+			</modules>
+		</profile>
+		
+		<!-- PROD -->
+		<profile>
+			<id>package</id>
+			<activation>
+				<activeByDefault>false</activeByDefault>
+			</activation>
+			<modules>
+				<module>../DDMoRe-BWF-Client</module>
+				<module>../DDMoRe-BWF-Core</module>
+				<module>../DDMoRe-BWF-Rest</module>
+				<module>../DDMoRe-WorkflowServer-Rest</module>
+				<module>../DDMoRe-BWF-Web</module>
+				<module>../DDMoRe-BWF-Distribution</module>
+			</modules>
+		</profile>
+		
+	</profiles>
+	
+</project>

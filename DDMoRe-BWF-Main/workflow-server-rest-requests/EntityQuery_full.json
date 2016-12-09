@@ -1,0 +1,23 @@
+{
+   "repo_id":"https://github.com/halfmanhalfgeek/MDLProject",
+   "entity_id":"repo:3103d73a24a57321080d46ef04fd7c016b514000/models/Step1.mdl",
+   "provTypes":{
+      "provTypes":[
+         {
+            "type":"OUTPUT"
+         }
+      ]
+   },
+   "relations":{
+      "relations":[
+         {
+            "relation":"GENERATED"
+         },
+         {
+            "relation":"USED"
+         }
+      ]
+   },
+   "depth":1,
+   "user_id":"manager"
+}
