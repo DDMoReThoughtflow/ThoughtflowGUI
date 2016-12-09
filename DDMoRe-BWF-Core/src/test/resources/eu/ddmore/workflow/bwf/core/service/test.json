@@ -1,0 +1,179 @@
+{
+	"entity": 
+	[
+		{
+			"abc134": 
+			{
+				"label": "warf_mdl1"
+			}
+		},
+
+		{
+			"abc131": 
+			{
+				"label": "warf_mdl2"
+			}
+		},
+
+		{
+			"abc135": 
+			{
+				"label": "warf_mdl3"
+			}
+		},
+
+		{
+			"abc136": 
+			{
+				"label": "warf_mdl4"
+			}
+		},
+
+		{
+			"abc137": 
+			{
+				"label": "warf_mdl5"
+			}
+		},
+
+		{
+			"abc138": 
+			{
+				"label": "warf_mdl6"
+			}
+		},
+
+		{
+			"abc139": 
+			{
+				"label": "warf_mdl7"
+			}
+		},
+
+		{
+			"abc140": 
+			{
+				"label": "warf_mdl8"
+			}
+		},
+
+		{
+			"abc141": 
+			{
+				"label": "warf_mdl9"
+			}
+		},
+
+		{
+			"abc142": 
+			{
+				"label": "warf_mdl10"
+			}
+		},
+
+		{
+			"abc143": 
+			{
+				"label": "warf_mdl11"
+			}
+		},
+
+		{
+			"abc144": 
+			{
+				"label": "warf_mdl12"
+			}
+		}
+	],
+
+	"wasDerivedFrom": 
+	[
+		{
+			"der1": 
+			{
+				"prov:generatedEntity": "abc131",
+				"prov:usedEntity": "abc134"
+			}
+		},
+
+		{
+			"der2": 
+			{
+				"prov:generatedEntity": "abc135",
+				"prov:usedEntity": "abc131"
+			}
+		},
+
+		{
+			"der3": 
+			{
+				"prov:generatedEntity": "abc136",
+				"prov:usedEntity": "abc135"
+			}
+		},
+
+		{
+			"der4": 
+			{
+				"prov:generatedEntity": "abc137",
+				"prov:usedEntity": "abc136"
+			}
+		},
+
+		{
+			"der5": 
+			{
+				"prov:generatedEntity": "abc139",
+				"prov:usedEntity": "abc137"
+			}
+		},
+
+		{
+			"der6": 
+			{
+				"prov:generatedEntity": "abc141",
+				"prov:usedEntity": "abc139"
+			}
+		},
+
+		{
+			"der7": 
+			{
+				"prov:generatedEntity": "abc138",
+				"prov:usedEntity": "abc136"
+			}
+		},
+
+		{
+			"der8": 
+			{
+				"prov:generatedEntity": "abc140",
+				"prov:usedEntity": "abc138"
+			}
+		},
+
+		{
+			"der9": 
+			{
+				"prov:generatedEntity": "abc144",
+				"prov:usedEntity": "abc140"
+			}
+		},
+
+		{
+			"der10": 
+			{
+				"prov:generatedEntity": "abc142",
+				"prov:usedEntity": "abc140"
+			}
+		},
+
+		{
+			"der11": 
+			{
+				"prov:generatedEntity": "abc143",
+				"prov:usedEntity": "abc136"
+			}
+		}
+	]
+}

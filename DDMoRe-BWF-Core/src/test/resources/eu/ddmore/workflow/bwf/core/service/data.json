@@ -1,0 +1,197 @@
+{
+  "/projects/1/overview" : {
+  	  "activity": [ {
+    		  "abc123": {
+  	  	    "prov:startTime": "2011-11-16T16:05:00",
+  		      "prov:endTime": "2011-11-16T16:06:00",
+  		      "label": "runTELScript",
+            "links" : [
+              { "rel" : "plan", "href" : "http://localhost:3333/activities/abc123/plan" },
+              { "rel" : "outputs", "href" : "http://localhost:3333/activities/abc123/generated"}
+            ]
+          }
+        }, {
+          "abc124": {
+  		      "prov:startTime": "2011-11-16T17:05:00",
+  		      "prov:endTime": "2011-11-16T17:06:00",
+  		      "label": "makeNMData",
+            "links" :  [
+                { "rel" : "plan", "href" : "http://localhost:3333/activities/abc124/plan" },
+            	  { "rel" : "inputs", "href" : "http://localhost:3333/activities/abc124/used" },
+            	  { "rel" : "outputs", "href" : "http://localhost:3333/activities/abc124/generated"}
+              ]
+  	        }
+          }
+  	    ],
+      "wasInformedBy":[
+          { "_:Infm1": {
+              "prov:informed": "abc123",
+              "prov:informant": "abc124" ,
+              "links" : [ {"rel" : "expand", "href" : "http://localhost:3333/findInformed/from/abc124/to/abc123"}]
+            }
+          }
+      ]
+  },
+  "/projects/1/modelOverview" : {
+    "entity" : [
+      {"abc134" : {"label" : "warf_mdl1"}},
+      {"abc131" : {"label" : "warf_mdl2"}},
+      {"abc135" : {"label" : "warf_mdl3"}},
+      {"abc136" : {"label" : "warf_mdl4"}},
+      {"abc137" : {"label" : "warf_mdl5"}},
+      {"abc138" : {"label" : "warf_mdl6"}},
+      {"abc139" : {"label" : "warf_mdl7"}},
+      {"abc140" : {"label" : "warf_mdl8"}},
+      {"abc141" : {"label" : "warf_mdl9"}},
+      {"abc142" : {"label" : "warf_mdl10"}},
+      {"abc143" : {"label" : "warf_mdl11"}},
+      {"abc144" : {"label" : "warf_mdl12"}}
+    ],
+    "wasDerivedFrom" : [
+      {"der1" : { "prov:generatedEntity": "abc131", "prov:usedEntity": "abc134" } },
+      {"der2" : { "prov:generatedEntity": "abc135", "prov:usedEntity": "abc131" } },
+      {"der3" : { "prov:generatedEntity": "abc136", "prov:usedEntity": "abc135" } },
+      {"der4" : { "prov:generatedEntity": "abc137", "prov:usedEntity": "abc136" } },
+      {"der5" : { "prov:generatedEntity": "abc139", "prov:usedEntity": "abc137" } },
+      {"der6" : { "prov:generatedEntity": "abc141", "prov:usedEntity": "abc139" } },
+      {"der7" : { "prov:generatedEntity": "abc138", "prov:usedEntity": "abc136" } },
+      {"der8" : { "prov:generatedEntity": "abc140", "prov:usedEntity": "abc138" } },
+      {"der9" : { "prov:generatedEntity": "abc144", "prov:usedEntity": "abc140" } },
+      {"der10" : { "prov:generatedEntity": "abc142", "prov:usedEntity": "abc140" } },
+      {"der11" : { "prov:generatedEntity": "abc143", "prov:usedEntity": "abc136" } }
+    ]
+  },
+  "/findInformed/from/abc124/to/abc123" : {
+    "activity": [
+      {
+    		"abc123": {
+  	  	  "prov:startTime": "2011-11-16T16:05:00",
+  		    "prov:endTime": "2011-11-16T16:06:00",
+  		    "label": "runTELScript",
+          "links" : [
+            { "rel" : "plan", "href" : "http://localhost:3333/activities/abc123/plan" }
+          ]
+        }
+      }, {
+        "abc124": {
+          "prov:startTime": "2011-11-16T17:05:00",
+          "prov:endTime": "2011-11-16T17:06:00",
+          "label": "assembleData",
+          "links" :  [
+              { "rel" : "plan", "href" : "http://localhost:3333/activities/abc124/plan" },
+              { "rel" : "inputs", "href" : "http://localhost:3333/activities/abc124/used" },
+              { "rel" : "outputs", "href" : "http://localhost:3333/activities/abc124/generated"}
+          ]
+        }
+      }, {
+        "abc125": {
+          "prov:startTime": "2011-11-16T17:05:00",
+          "prov:endTime": "2011-11-16T17:06:00",
+          "label": "estimate",
+          "links" :  [
+              { "rel" : "plan", "href" : "http://localhost:3333/activities/abc125/plan" },
+              { "rel" : "inputs", "href" : "http://localhost:3333/activities/abc125/used" },
+              { "rel" : "outputs", "href" : "http://localhost:3333/activities/abc125/generated"}
+          ]
+        }
+      }
+    ],
+    "wasInformedBy":[
+      { "infm1": {
+          "prov:informed": "abc123",
+          "prov:informant": "abc125"
+        },
+        "infm2" : {
+            "prov:informed": "abc125",
+            "prov:informant": "abc124" ,
+            "links" : [ {"rel" : "expand", "href" : "http://localhost:3333/findInformed/from/abc124/to/abc125"} ]
+        }
+      }
+    ]
+  },
+  "/findInformed/from/abc124/to/abc125" : {
+    "entity" : [
+      { "abc126" : { "label": "data.csv" } },
+      { "abc127" : { "label": "mog",
+            "prov:type" : "prov:Collection",
+            "links" : [
+              { "rel" : "members", "href" : "http://localhost:3333/entities/abc127/members" }
+            ]
+        } }
+    ],
+    "wasGeneratedBy" : [{"gen1" : { "prov:entity": "abc126", "prov:activity": "abc124" } }],
+    "used" : [{"used1" : { "prov:entity": "abc127", "prov:activity": "abc125" } }],
+    "wasDerivedFrom" : [{"der1" : { "prov:generatedEntity": "abc127", "prov:usedEntity": "abc126" } }]
+  },
+  "/activities/abc124/used" : {
+    "entity" : [
+      {"abc128" : {"label": "demographics.csv"}},
+      {"abc129" : {"label" : "observed.csv"}}
+    ],
+    "used" : [{"used2" : { "prov:entity": "abc128", "prov:activity": "abc124" } },
+      {"used3" : { "prov:entity": "abc129", "prov:activity": "abc124" } }]
+  },
+  "/activities/abc123/generated" : {
+    "entity" : [
+      {"abc134" : {"label" : "DVvsPRED.png"}}
+    ],
+    "wasGeneratedBy" : [{"abc123_gen1" : { "prov:entity": "abc134", "prov:activity": "abc123" } }]
+  },
+  "/activities/abc125/generated" : {
+    "entity" : [
+      {"abc200" : {"label" : "estimate.SO"}}
+    ],
+    "wasGeneratedBy" : [{"abc125_gen1" : { "prov:entity": "abc200", "prov:activity": "abc125" } }]
+  },
+  "/entities/abc127/members" : {
+    "entity" : [
+      {"abc130" : {"label": "warf_dat"}},
+      {"abc131" : {"label" : "warf_mdl12"}},
+      {"abc132" : {"label" : "warf_param"}},
+      {"abc133" : {"label" : "warf_task"}}
+    ],
+    "hadMember" : [
+      { "mem1" : { "prov:collection" : "abc127", "prov:entity" : "abc130"} },
+      { "mem2" : { "prov:collection" : "abc127", "prov:entity" : "abc131"} },
+      { "mem3" : { "prov:collection" : "abc127", "prov:entity" : "abc132"} },
+      { "mem4" : { "prov:collection" : "abc127", "prov:entity" : "abc133"} }
+    ],
+    "wasDerivedFrom" : [{"der2" : { "prov:generatedEntity": "abc130", "prov:usedEntity": "abc126" } }]
+  },
+  "/activities/abc124" : {
+    "activity": [ {
+        "abc124": {
+          "prov:startTime": "2011-11-16T17:05:00",
+          "prov:endTime": "2011-11-16T17:06:00",
+          "label": "assembleData"
+          }
+        } ],
+      "entity" : [
+        {"abc134" : {"label": "assembleData.R", "prov:type": "prov:Plan", "location" : "./rerun_detail.html"}},
+        {"abc128" : {"label": "demographics.csv"}},
+        {"abc129" : {"label" : "observed.csv"}},
+        {"abc126" : {"label": "data.csv"}}
+      ],
+      "used" : [
+          {"used2" : { "prov:entity": "abc128", "prov:activity": "abc124" } },
+          {"used3" : { "prov:entity": "abc129", "prov:activity": "abc124" } } ],
+      "wasGeneratedBy" : [
+          {"gen1" : { "prov:entity": "abc126", "prov:activity": "abc124" } } ],
+      "wasAssociatedWith": [
+          { "assoc1": { "prov:activity": "abc124", "prov:plan": "abc134" } } ]
+  },
+  "/activities/abc123/plan" : {
+    "activity": [ {
+        "abc123": {
+          "prov:startTime": "2011-11-16T17:05:00",
+          "prov:endTime": "2011-11-16T17:06:00",
+          "label": "runTelScript.R"
+          }
+        } ],
+    "entity" : [
+        {"abc145" : {"label": "telScript.R", "prov:type": "prov:Plan", "location" : "./code.html"}}
+      ],
+    "wasAssociatedWith": [
+          { "assoc1": { "prov:activity": "abc123", "prov:plan": "abc145" } } ]
+  }
+}

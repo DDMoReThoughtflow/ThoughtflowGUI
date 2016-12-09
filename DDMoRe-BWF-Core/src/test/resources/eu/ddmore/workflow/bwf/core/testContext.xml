@@ -1,0 +1,71 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<beans xmlns="http://www.springframework.org/schema/beans"
+	   xmlns:xsi="http://www.w3.org/2001/XMLSchema-instance"
+	   xmlns:context="http://www.springframework.org/schema/context"
+	   xmlns:task="http://www.springframework.org/schema/task"
+	   xmlns:aop="http://www.springframework.org/schema/aop"
+	   xmlns:tx="http://www.springframework.org/schema/tx"
+	   xmlns:jee="http://www.springframework.org/schema/jee"
+	   xmlns:jdbc="http://www.springframework.org/schema/jdbc"
+	   xsi:schemaLocation="http://www.springframework.org/schema/beans http://www.springframework.org/schema/beans/spring-beans.xsd
+			http://www.springframework.org/schema/task http://www.springframework.org/schema/task/spring-task.xsd		
+			http://www.springframework.org/schema/aop http://www.springframework.org/schema/aop/spring-aop.xsd		
+			http://www.springframework.org/schema/tx http://www.springframework.org/schema/tx/spring-tx.xsd
+			http://www.springframework.org/schema/context http://www.springframework.org/schema/context/spring-context.xsd
+			http://www.springframework.org/schema/jee http://www.springframework.org/schema/jee/spring-jee.xsd
+			http://www.springframework.org/schema/jdbc http://www.springframework.org/schema/jdbc/spring-jdbc.xsd">
+	
+    <!-- Enable annotation for spring beans -->
+	<context:annotation-config />
+    
+ 	<!-- Enables spring scheduling annotation -->
+	<task:annotation-driven />
+
+	<!-- Enables spring transaction annotation -->
+	<tx:annotation-driven transaction-manager="transactionManager" />
+		
+ 	<!-- Packages to scan for spring beans -->
+	<context:component-scan base-package="eu.ddmore.workflow.bwf" />
+	
+	<!-- Enables mbean support (e.g. jconsole) -->
+	<context:mbean-export registration="replaceExisting" />
+
+	<!-- Use CGLIB2 for your proxies instead of jdk proxys -->
+	<aop:config proxy-target-class="true" />
+
+	<!-- Enables annotation for aspect interceptors -->
+	<aop:aspectj-autoproxy />
+
+	<!-- Defines the data-source resource from properties definied in property-placeholder	-->
+	<bean id="dataSource" class="org.apache.commons.dbcp.BasicDataSource">
+        <property name="driverClassName" value="org.hsqldb.jdbcDriver" />
+        <property name="url" value="jdbc:hsqldb:file:C:/temp/hsqldb/bwf;shutdown=true;hsqldb.default_table_type=cached" />
+        <property name="username" value="sa" />
+        <property name="password" value="" />
+        <property name="initialSize" value="1" />
+        <property name="maxActive" value="5" />
+        <property name="poolPreparedStatements" value="true" />
+        <property name="maxOpenPreparedStatements" value="10" />
+    </bean>	
+
+ 	<!-- Spring JDBC transaction manager -->
+    <bean id="transactionManager" class="org.springframework.jdbc.datasource.DataSourceTransactionManager">
+        <property name="dataSource" ref="dataSource" />
+    </bean>
+	
+	<jdbc:initialize-database data-source="dataSource" enabled="true">
+		<jdbc:script location="classpath:schema.sql"/>
+    	<jdbc:script location="classpath:data.sql"/>
+	</jdbc:initialize-database>
+
+    <!-- Load properties -->
+    <context:property-placeholder location="classpath:test.properties" />
+    <bean id="applicationProperties" class="org.springframework.beans.factory.config.PropertiesFactoryBean">
+        <property name="locations">
+            <list>
+                <value>classpath:test.properties</value>
+            </list>
+        </property>
+    </bean>
+		
+</beans>

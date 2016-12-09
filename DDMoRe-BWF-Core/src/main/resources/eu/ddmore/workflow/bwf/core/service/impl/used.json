@@ -1,0 +1,146 @@
+{
+  "prefix": {
+    "ddmore": "http://www.ddmore.eu/#",
+    "xsd": "http://www.w3.org/2001/XMLSchema#",
+    "default": "http://www.ddmore.eu/#",
+    "prov": "http://www.w3.org/ns/prov#",
+    "repo": "https://github.com/halfmanhalfgeek/MDLProject#",
+    "vcs": "https://github.com/#"
+  },
+  "agent": {
+    "jwilkins": {},
+    "R-3.1.2" : {},
+    "MONOLIX" : {}
+  },
+  "entity": {
+    "repo:911493aa4eb180787e86b19d4275071565a8df46/models/warfarin_conc.csv": {
+      "prov:location": {
+        "$": "models/warfarin_conc.csv",
+        "type": "xsd:string"
+      },
+      "prov:type": {
+        "$": "ddmore:dataset",
+        "type": "xsd:string"
+      },
+      "prov:label": "warfarin_conc.csv"
+    },
+    "repo:3103d73a24a57321080d46ef04fd7c016b514000/scripts/Step1.R": {
+      "prov:location": {
+        "$": "scripts/Step1.R",
+        "type": "xsd:string"
+      },
+      "prov:type": {
+        "$": "prov:Plan",
+        "type": "xsd:string"
+      },
+      "prov:label": "Step1.R"
+    },
+    "repo:3103d73a24a57321080d46ef04fd7c016b514000/models/Step1.mdl": {
+      "prov:location": {
+        "$": "models/Step1.mdl",
+        "type": "xsd:string"
+      },
+      "prov:type": {
+        "$": "ddmore:model",
+        "type": "xsd:string"
+      },
+      "prov:label": "Step1.mdl"
+    }
+  },
+  "activity": {
+    "repo:9": {
+      "note": {
+        "$": "Some concentrations in absorption phase are BLQ so try LAG time",
+        "type": "xsd:string"
+      },
+      "prov:startTime": "2016-07-20T17:43:36.000+01:00",
+      "prov:label": "Step1.R",
+      "description": {
+        "$": "Estimation of initial model",
+        "type": "xsd:string"
+      }
+    },
+    "repo:10": {
+      "prov:startTime": "2016-07-20T17:44:36.000+01:00",
+      "prov:label": "Estimate",
+      "prov:endTime": "2016-07-20T17:46:36.000+01:00"
+    }
+  },
+  "used": {
+    "_:u1": {
+      "prov:entity": "repo:911493aa4eb180787e86b19d4275071565a8df46/models/warfarin_conc.csv",
+      "prov:activity": "repo:9"
+    },
+    "_:u2": {
+      "prov:entity": "repo:3103d73a24a57321080d46ef04fd7c016b514000/models/Step1.mdl",
+      "prov:activity": "repo:9"
+    }
+  },
+  "wasAssociatedWith": {
+    "_:wAW2": {
+      "prov:plan": "repo:3103d73a24a57321080d46ef04fd7c016b514000/scripts/Step1.R",
+      "prov:agent": "R-3.1.2",
+      "prov:activity": "repo:9"
+    },
+    "_:wAW3": {
+      "prov:agent": "jwilkins",
+      "prov:activity": "repo:9"
+    }
+  },
+  "wasGeneratedBy": {
+      "_:wGB11": {
+        "prov:entity": "repo:4bf8c20c3cd38f233f23bfff3412fe63d78b4f26/models/Step1/Step1/Step1_project/Step1_model.txt",
+        "prov:activity": "repo:9"
+      },
+      "_:wGB10": {
+        "prov:entity": "repo:4bf8c20c3cd38f233f23bfff3412fe63d78b4f26/models/Step1/GOF_MLX_1.png",
+        "prov:activity": "repo:9"
+      },
+      "_:wGB13": {
+        "prov:entity": "repo:4bf8c20c3cd38f233f23bfff3412fe63d78b4f26/models/Step1/converter.out",
+        "prov:activity": "repo:9"
+      },
+      "_:wGB12": {
+        "prov:entity": "repo:4bf8c20c3cd38f233f23bfff3412fe63d78b4f26/models/Step1/Step1/tables.xmlx",
+        "prov:activity": "repo:9"
+      },
+      "_:wGB3": {
+        "prov:entity": "repo:4bf8c20c3cd38f233f23bfff3412fe63d78b4f26/models/Step1/stderr.txt",
+        "prov:activity": "repo:9"
+      },
+      "_:wGB4": {
+        "prov:entity": "repo:4bf8c20c3cd38f233f23bfff3412fe63d78b4f26/models/Step1/stdout.txt",
+        "prov:activity": "repo:9"
+      },
+      "_:wGB5": {
+        "prov:entity": "repo:4bf8c20c3cd38f233f23bfff3412fe63d78b4f26/models/Step1/warfarin_conc.csv",
+        "prov:activity": "repo:9"
+      },
+      "_:wGB6": {
+        "prov:entity": "repo:4bf8c20c3cd38f233f23bfff3412fe63d78b4f26/models/Step1/Step1/warfarin_conc.csv",
+        "prov:activity": "repo:9"
+      },
+      "_:wGB2": {
+        "prov:entity": "repo:4bf8c20c3cd38f233f23bfff3412fe63d78b4f26/models/Step1/Step1.mdl",
+        "prov:activity": "repo:9"
+      },
+      "_:wGB7": {
+        "prov:entity": "repo:4bf8c20c3cd38f233f23bfff3412fe63d78b4f26/models/Step1/conversionReport.log",
+        "prov:activity": "repo:9"
+      },
+      "_:wGB8": {
+        "prov:entity": "repo:4bf8c20c3cd38f233f23bfff3412fe63d78b4f26/models/Step1/GOF_MLX_2.png",
+        "prov:activity": "repo:9"
+      },
+      "_:wGB9": {
+        "prov:entity": "repo:4bf8c20c3cd38f233f23bfff3412fe63d78b4f26/models/Step1/GOF_MLX_3.png",
+        "prov:activity": "repo:9"
+      }
+  },
+  "wasInformedBy": {
+      "_:Infm1": {
+        "prov:informed": "repo:10",
+        "prov:informant": "repo:9"
+      }
+    }
+}

@@ -1,0 +1,65 @@
+{
+  "prefix": {
+    "ddmore": "http://www.ddmore.eu/#",
+    "xsd": "http://www.w3.org/2001/XMLSchema#",
+    "default": "http://www.ddmore.eu/#",
+    "prov": "http://www.w3.org/ns/prov#",
+    "repo": "https://github.com/halfmanhalfgeek/MDLProject#",
+    "vcs": "https://github.com/#"
+  },
+  "entity": {
+    "repo:3103d73a24a57321080d46ef04fd7c016b514000/scripts/Step1.R": {
+      "prov:location": {
+        "$": "scripts/Step1.R",
+        "type": "xsd:string"
+      },
+      "prov:type": {
+        "$": "prov:Plan",
+        "type": "xsd:string"
+      },
+      "prov:label": "Step1.R"
+    },
+    "repo:3103d73a24a57321080d46ef04fd7c016b514000/models/Step1.mdl": {
+      "prov:location": {
+        "$": "models/Step1.mdl",
+        "type": "xsd:string"
+      },
+      "prov:type": {
+        "$": "ddmore:model",
+        "type": "xsd:string"
+      },
+      "prov:label": "Step1.mdl"
+    }
+  },
+  "activity": {
+    "repo:9": {
+      "note": {
+        "$": "Some concentrations in absorption phase are BLQ so try LAG time",
+        "type": "xsd:string"
+      },
+      "prov:startTime": "2016-07-20T17:43:36.000+01:00",
+      "prov:label": "Step1.R",
+      "description": {
+        "$": "Estimation of initial model",
+        "type": "xsd:string"
+      }
+    }
+  },
+  "used": {
+    "_:u2": {
+      "prov:entity": "repo:3103d73a24a57321080d46ef04fd7c016b514000/models/Step1.mdl",
+      "prov:activity": "repo:9"
+    }
+  },
+  "wasAssociatedWith": {
+    "_:wAW2": {
+      "prov:plan": "repo:3103d73a24a57321080d46ef04fd7c016b514000/scripts/Step1.R",
+      "prov:agent": "R-3.1.2",
+      "prov:activity": "repo:9"
+    },
+    "_:wAW3": {
+      "prov:agent": "jwilkins",
+      "prov:activity": "repo:9"
+    }
+}
+}
